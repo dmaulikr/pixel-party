@@ -7,15 +7,19 @@
 //
 
 import UIKit
+import GoogleCast
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Set up Chromecast options
+        GCKLogger.sharedInstance().delegate = self
+        let castOptions = GCKCastOptions(receiverApplicationID: ENV("ChromecastAppID") as! String)
+        GCKCastContext.setSharedInstanceWith(castOptions)
+        GCKCastContext.sharedInstance().sessionManager.add(self)
+        
         return true
     }
 
@@ -40,7 +44,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 
+extension AppDelegate: GCKLoggerDelegate {
+    func logFromFunction(function: UnsafePointer<Int8>, message: String!) {
+        let functionName = String.init(cString: function)
+        print("\(functionName): \(message)")
+    }
+}
+
+extension AppDelegate: GCKSessionManagerListener {
+    func sessionManager(_ sessionManager: GCKSessionManager, didStart session: GCKCastSession) {
+        session.add(DataChannel.sharedInstance)
+        
+        // TODO: once we've connected to establish the IP address, can we disconnect?
+    }
+}

@@ -1,0 +1,20 @@
+PODS:
+  - google-cast-sdk (3.3.0):
+    - google-cast-sdk/Core (= 3.3.0)
+  - google-cast-sdk/Core (3.3.0)
+  - Swifter (1.3.2)
+  - SwiftyJSON (3.1.3)
+
+DEPENDENCIES:
+  - google-cast-sdk
+  - Swifter
+  - SwiftyJSON
+
+SPEC CHECKSUMS:
+  google-cast-sdk: da1989cbc1b9ff7b50ddb9dae5b1969d95a65a0f
+  Swifter: dd1800ba8eb3e28b22b8bd20f91a8561a0110fac
+  SwiftyJSON: 38a8ea2006779c0fc4c310cb2ee8195327740faf
+
+PODFILE CHECKSUM: 4ae0b69371589e95c4c756f86c8b3b923f6dca56
+
+COCOAPODS: 1.1.1

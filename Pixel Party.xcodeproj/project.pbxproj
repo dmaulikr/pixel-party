@@ -12,6 +12,11 @@
 		00104FAA1E144051004E2AC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00104FA81E144051004E2AC7 /* Main.storyboard */; };
 		00104FAC1E144051004E2AC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00104FAB1E144051004E2AC7 /* Assets.xcassets */; };
 		00104FAF1E144051004E2AC7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00104FAD1E144051004E2AC7 /* LaunchScreen.storyboard */; };
+		00104FBA1E144706004E2AC7 /* Public in Resources */ = {isa = PBXBuildFile; fileRef = 00104FB91E144706004E2AC7 /* Public */; };
+		002735A81E14DE1100CA064F /* ENV.plist in Resources */ = {isa = PBXBuildFile; fileRef = 002735A71E14DE1100CA064F /* ENV.plist */; };
+		002735AA1E156D8F00CA064F /* ENV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002735A91E156D8F00CA064F /* ENV.swift */; };
+		002735AC1E15817E00CA064F /* DataChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002735AB1E15817E00CA064F /* DataChannel.swift */; };
+		F47557B8BC7A34C002A816B1 /* Pods_Pixel_Party.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95183EFA15EE1C977A662B17 /* Pods_Pixel_Party.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +27,14 @@
 		00104FAB1E144051004E2AC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		00104FAE1E144051004E2AC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		00104FB01E144051004E2AC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00104FB61E144321004E2AC7 /* Pixel Party-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Pixel Party-Bridging-Header.h"; sourceTree = "<group>"; };
+		00104FB91E144706004E2AC7 /* Public */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Public; sourceTree = "<group>"; };
+		002735A71E14DE1100CA064F /* ENV.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ENV.plist; sourceTree = "<group>"; };
+		002735A91E156D8F00CA064F /* ENV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ENV.swift; sourceTree = "<group>"; };
+		002735AB1E15817E00CA064F /* DataChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataChannel.swift; sourceTree = "<group>"; };
+		95183EFA15EE1C977A662B17 /* Pods_Pixel_Party.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pixel_Party.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B85769CC80229D7CBD466AA8 /* Pods-Pixel Party.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixel Party.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixel Party/Pods-Pixel Party.release.xcconfig"; sourceTree = "<group>"; };
+		D9E2556FB06334EC5FC4EB43 /* Pods-Pixel Party.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixel Party.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pixel Party/Pods-Pixel Party.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F47557B8BC7A34C002A816B1 /* Pods_Pixel_Party.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +54,8 @@
 			children = (
 				00104FA31E144051004E2AC7 /* Pixel Party */,
 				00104FA21E144051004E2AC7 /* Products */,
+				B223148FFAD44E6B833332F1 /* Pods */,
+				24C094EA0F274EF48AD29B1B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,12 +72,34 @@
 			children = (
 				00104FA41E144051004E2AC7 /* AppDelegate.swift */,
 				00104FA61E144051004E2AC7 /* ViewController.swift */,
+				002735AB1E15817E00CA064F /* DataChannel.swift */,
+				00104FAD1E144051004E2AC7 /* LaunchScreen.storyboard */,
 				00104FA81E144051004E2AC7 /* Main.storyboard */,
 				00104FAB1E144051004E2AC7 /* Assets.xcassets */,
-				00104FAD1E144051004E2AC7 /* LaunchScreen.storyboard */,
+				00104FB91E144706004E2AC7 /* Public */,
 				00104FB01E144051004E2AC7 /* Info.plist */,
+				00104FB61E144321004E2AC7 /* Pixel Party-Bridging-Header.h */,
+				002735A71E14DE1100CA064F /* ENV.plist */,
+				002735A91E156D8F00CA064F /* ENV.swift */,
 			);
 			path = "Pixel Party";
+			sourceTree = "<group>";
+		};
+		24C094EA0F274EF48AD29B1B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				95183EFA15EE1C977A662B17 /* Pods_Pixel_Party.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B223148FFAD44E6B833332F1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D9E2556FB06334EC5FC4EB43 /* Pods-Pixel Party.debug.xcconfig */,
+				B85769CC80229D7CBD466AA8 /* Pods-Pixel Party.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +109,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00104FB31E144051004E2AC7 /* Build configuration list for PBXNativeTarget "Pixel Party" */;
 			buildPhases = (
+				673F0D0E644B157B8BD67B98 /* [CP] Check Pods Manifest.lock */,
 				00104F9D1E144051004E2AC7 /* Sources */,
 				00104F9E1E144051004E2AC7 /* Frameworks */,
 				00104F9F1E144051004E2AC7 /* Resources */,
+				4C93486930E76BFD46688888 /* [CP] Embed Pods Frameworks */,
+				BC9155F5857BECCDAE925280 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -91,13 +132,19 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Ryan Laughlin";
 				TargetAttributes = {
 					00104FA01E144051004E2AC7 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 76Z7TDNBZJ;
+						DevelopmentTeam = FM3GE7BP4V;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.WAC = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -124,7 +171,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				002735A81E14DE1100CA064F /* ENV.plist in Resources */,
 				00104FAF1E144051004E2AC7 /* LaunchScreen.storyboard in Resources */,
+				00104FBA1E144706004E2AC7 /* Public in Resources */,
 				00104FAC1E144051004E2AC7 /* Assets.xcassets in Resources */,
 				00104FAA1E144051004E2AC7 /* Main.storyboard in Resources */,
 			);
@@ -132,13 +181,63 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4C93486930E76BFD46688888 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pixel Party/Pods-Pixel Party-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		673F0D0E644B157B8BD67B98 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BC9155F5857BECCDAE925280 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pixel Party/Pods-Pixel Party-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		00104F9D1E144051004E2AC7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				002735AA1E156D8F00CA064F /* ENV.swift in Sources */,
 				00104FA71E144051004E2AC7 /* ViewController.swift in Sources */,
 				00104FA51E144051004E2AC7 /* AppDelegate.swift in Sources */,
+				002735AC1E15817E00CA064F /* DataChannel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +281,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -204,7 +304,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -232,6 +332,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -248,7 +349,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -259,26 +360,37 @@
 		};
 		00104FB41E144051004E2AC7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9E2556FB06334EC5FC4EB43 /* Pods-Pixel Party.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 76Z7TDNBZJ;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = FM3GE7BP4V;
 				INFOPLIST_FILE = "Pixel Party/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.rofreg.Pixel-Party";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Pixel Party/Pixel Party-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		00104FB51E144051004E2AC7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B85769CC80229D7CBD466AA8 /* Pods-Pixel Party.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 76Z7TDNBZJ;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = FM3GE7BP4V;
 				INFOPLIST_FILE = "Pixel Party/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.rofreg.Pixel-Party";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Pixel Party/Pixel Party-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -302,6 +414,7 @@
 				00104FB51E144051004E2AC7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
