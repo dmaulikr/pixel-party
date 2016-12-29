@@ -10,16 +10,27 @@ import UIKit
 import Swifter
 import SwiftyJSON
 import GoogleCast
+import AVFoundation
+import MediaPlayer
 
 class ViewController: UIViewController {
     @IBOutlet var outputView: UIWebView!
     @IBOutlet var joinGameLabel: UILabel!
+    @IBOutlet var airplayButton: MPVolumeView!
     
     var server = HttpServer() // Must keep a reference to the server to keep it running
     var openSessions: Dictionary<String, WebSocketSession> = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set up AirPlay button
+        airplayButton.showsRouteButton = true
+        airplayButton.showsVolumeSlider = false
+        updateAirplayButton()
+        
+        // Update AirPlay visibility when available routes change
+        NotificationCenter.default.addObserver(self, selector:(#selector(ViewController.updateAirplayButton)), name:NSNotification.Name.MPVolumeViewWirelessRoutesAvailableDidChange, object:nil)
         
         setJoinGameLabel()
         setUpServer()
@@ -39,15 +50,15 @@ class ViewController: UIViewController {
         }
         
         // Assemble the two lines of the "join game" label
-        let attributedString = NSMutableAttributedString(string: "To join this game, go to:\n",
-                                                         attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
+        let attributedString = NSMutableAttributedString(string: "To join the game, go to:\n",
+                                                         attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 12)])
         let serverAddress = NSMutableAttributedString(string: gameUrl,
-                                                      attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 16)])
+                                                      attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15)])
         attributedString.append(serverAddress)
         
         // Make them center-aligned and increase line spacing
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 5
+        paragraphStyle.lineSpacing = 2
         paragraphStyle.alignment = .center
         attributedString.addAttribute(
             NSParagraphStyleAttributeName,
@@ -133,5 +144,9 @@ class ViewController: UIViewController {
             session.writeText(response.rawString()!)
             print("\(NSDate()): Pinging \(username)")
         }
+    }
+    
+    func updateAirplayButton(){
+        airplayButton.isHidden = !airplayButton.areWirelessRoutesAvailable
     }
 }

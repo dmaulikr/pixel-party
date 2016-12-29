@@ -22,9 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GCKCastContext.sharedInstance().sessionManager.add(self)
         
         // AirPlay support
-        let screenConnectionStatusChangedNotification = NotificationCenter.default
-        screenConnectionStatusChangedNotification.addObserver(self, selector:(#selector(AppDelegate.screenConnectionStatusChanged)), name:NSNotification.Name.UIScreenDidConnect, object:nil)
-        screenConnectionStatusChangedNotification.addObserver(self, selector:(#selector(AppDelegate.screenConnectionStatusChanged)), name:NSNotification.Name.UIScreenDidDisconnect, object:nil)
+        NotificationCenter.default.addObserver(self, selector:(#selector(AppDelegate.screenConnectionStatusChanged)), name:NSNotification.Name.UIScreenDidConnect, object:nil)
+        NotificationCenter.default.addObserver(self, selector:(#selector(AppDelegate.screenConnectionStatusChanged)), name:NSNotification.Name.UIScreenDidDisconnect, object:nil)
         
         //Initial check on how many screens are connected to the device on launch of the application.
         if (UIScreen.screens.count > 1) {

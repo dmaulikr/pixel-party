@@ -21,53 +21,64 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BkZ-Xm-0zR">
-                                <rect key="frame" x="0.0" y="20" width="375" height="583"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="603"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H0s-kn-iba">
-                                <rect key="frame" x="0.0" y="603" width="375" height="64"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0UE-22-mye">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TTS-qZ-gGd" customClass="GCKUICastButton">
-                                        <rect key="frame" x="10" y="12" width="40" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="20l-mW-YD4"/>
-                                            <constraint firstAttribute="height" constant="40" id="aIu-2r-iew"/>
-                                        </constraints>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Wu-EE-hV9">
-                                        <rect key="frame" x="60" y="0.0" width="305" height="64"/>
-                                        <string key="text">To join the game, open this URL in your browser:
-http://www.example.com</string>
-                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="OpX-Ey-QeZ">
+                                        <rect key="frame" x="10" y="0.0" width="355" height="44"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To join, visit URL" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjq-S0-Uw4">
+                                                <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vvm-Ah-V5J" customClass="MPVolumeView">
+                                                <rect key="frame" x="297" y="0.0" width="24" height="44"/>
+                                                <color key="backgroundColor" red="0.79409950650000005" green="0.42969085460000001" blue="0.43576433219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="24" id="nKt-SE-kRm"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KFm-lS-kyu" userLabel="Chromecast Button" customClass="GCKUICastButton">
+                                                <rect key="frame" x="331" y="0.0" width="24" height="44"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="24" id="Qon-1S-hSK"/>
+                                                </constraints>
+                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="Button"/>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="TTS-qZ-gGd" firstAttribute="centerY" secondItem="H0s-kn-iba" secondAttribute="centerY" id="7TW-VB-qfj"/>
-                                    <constraint firstItem="8Wu-EE-hV9" firstAttribute="top" secondItem="H0s-kn-iba" secondAttribute="top" id="A4V-sC-Vhz"/>
-                                    <constraint firstItem="TTS-qZ-gGd" firstAttribute="leading" secondItem="H0s-kn-iba" secondAttribute="leading" constant="10" id="Ghp-tb-Vm7"/>
-                                    <constraint firstAttribute="trailing" secondItem="8Wu-EE-hV9" secondAttribute="trailing" constant="10" id="KIA-Bg-hn2"/>
-                                    <constraint firstAttribute="bottom" secondItem="8Wu-EE-hV9" secondAttribute="bottom" id="Ple-LM-y9j"/>
-                                    <constraint firstItem="8Wu-EE-hV9" firstAttribute="leading" secondItem="TTS-qZ-gGd" secondAttribute="trailing" constant="10" id="deR-ia-13D"/>
-                                    <constraint firstAttribute="height" constant="64" id="wBt-8U-gbZ"/>
+                                    <constraint firstItem="OpX-Ey-QeZ" firstAttribute="leading" secondItem="0UE-22-mye" secondAttribute="leading" constant="10" id="DtS-6Z-zrI"/>
+                                    <constraint firstAttribute="trailing" secondItem="OpX-Ey-QeZ" secondAttribute="trailing" constant="10" id="KxZ-7b-zR3"/>
+                                    <constraint firstAttribute="bottom" secondItem="OpX-Ey-QeZ" secondAttribute="bottom" id="YWK-nC-xhq"/>
+                                    <constraint firstAttribute="height" constant="44" id="hg5-LJ-ht0"/>
+                                    <constraint firstItem="OpX-Ey-QeZ" firstAttribute="top" secondItem="0UE-22-mye" secondAttribute="top" id="qIJ-se-qEw"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="BkZ-Xm-0zR" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="5lU-82-vqc"/>
-                            <constraint firstAttribute="bottom" secondItem="H0s-kn-iba" secondAttribute="bottom" id="9B3-lK-F3G"/>
-                            <constraint firstItem="H0s-kn-iba" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="JNW-AR-h8Q"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="0UE-22-mye" secondAttribute="bottom" id="BLy-fp-f64"/>
+                            <constraint firstAttribute="trailing" secondItem="0UE-22-mye" secondAttribute="trailing" id="DyR-yY-oLI"/>
                             <constraint firstAttribute="trailing" secondItem="BkZ-Xm-0zR" secondAttribute="trailing" id="LPU-O7-SLy"/>
-                            <constraint firstAttribute="trailing" secondItem="H0s-kn-iba" secondAttribute="trailing" id="Y0W-gp-NrN"/>
+                            <constraint firstItem="0UE-22-mye" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ReI-cF-fOO"/>
+                            <constraint firstItem="0UE-22-mye" firstAttribute="top" secondItem="BkZ-Xm-0zR" secondAttribute="bottom" id="aCL-nw-5x9"/>
                             <constraint firstItem="BkZ-Xm-0zR" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="cKW-yy-NQj"/>
-                            <constraint firstItem="H0s-kn-iba" firstAttribute="top" secondItem="BkZ-Xm-0zR" secondAttribute="bottom" id="rwR-Zm-Bbw"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="joinGameLabel" destination="8Wu-EE-hV9" id="QCa-v4-lM6"/>
+                        <outlet property="airplayButton" destination="vvm-Ah-V5J" id="43x-6D-sha"/>
+                        <outlet property="joinGameLabel" destination="hjq-S0-Uw4" id="BCM-ni-2lr"/>
                         <outlet property="outputView" destination="BkZ-Xm-0zR" id="6j1-Tg-sRj"/>
                     </connections>
                 </viewController>
