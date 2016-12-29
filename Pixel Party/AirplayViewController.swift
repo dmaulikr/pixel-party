@@ -16,7 +16,7 @@ class AirplayViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let webView = UIWebView(frame: appDelegate.secondaryWindow!.frame)
         webView.backgroundColor = UIColor.red
-        webView.loadRequest(URLRequest(url: URL(string: ServerInstance.url!)!))
+        webView.loadRequest(URLRequest(url: URL(string: ServerInstance.scoreboardUrl!)!))
         view.addSubview(webView)
     }
 }

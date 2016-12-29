@@ -44,7 +44,7 @@ class ViewController: UIViewController {
     // MARK: Game URL generation
     
     func setJoinGameLabel(){
-        guard let gameUrl = ServerInstance.url else {
+        guard let gameUrl = ServerInstance.baseUrl else {
             joinGameLabel.text = "An error occurred that prevented the server from starting."
             return
         }
@@ -83,7 +83,15 @@ class ViewController: UIViewController {
             
             return .ok(.html(indexPage))
         }
+        server["/scoreboard"] = { (request: HttpRequest) -> HttpResponse in
+            guard let indexPage = try? String(contentsOfFile:(Bundle.main.resourcePath! + "/Public/scoreboard.html"), encoding: String.Encoding.utf8) else {
+                return .notFound
+            }
+            
+            return .ok(.html(indexPage))
+        }
         server["/javascripts/:path"] = shareFilesFromDirectory(Bundle.main.resourcePath! + "/Public/javascripts")
+        server["/sounds/:path"] = shareFilesFromDirectory(Bundle.main.resourcePath! + "/Public/sounds")
         server["/stylesheets/:path"] = shareFilesFromDirectory(Bundle.main.resourcePath! + "/Public/stylesheets")
         
         // WebSocket functionality
@@ -132,7 +140,7 @@ class ViewController: UIViewController {
         
         try! server.start(ENV("Port") as! UInt16)
         
-        outputView.loadRequest(URLRequest(url: URL(string: ServerInstance.url!)!))
+        outputView.loadRequest(URLRequest(url: URL(string: ServerInstance.baseUrl!)!))
         
         // Ping every 5 seconds to keep connections alive
         Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(ViewController.ping), userInfo: nil, repeats: true)

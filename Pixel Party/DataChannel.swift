@@ -18,7 +18,7 @@ class DataChannel : GCKCastChannel {
     override func didConnect() {
         super.didConnect()
         
-        let jsonBlob = JSON(["url": ServerInstance.url!]).rawString()!
+        let jsonBlob = JSON(["url": ServerInstance.scoreboardUrl!]).rawString()!
         sendTextMessage(jsonBlob, error: nil)
     }
     

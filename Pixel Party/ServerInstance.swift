@@ -9,7 +9,15 @@
 import Foundation
 
 class ServerInstance {
-    static var url: String? {
+    static var scoreboardUrl: String? {
+        guard let baseUrl = baseUrl else {
+            return nil
+        }
+        
+        return "\(baseUrl)/scoreboard"
+    }
+    
+    static var baseUrl: String? {
         guard let ipAddress = ipAddress else {
             return nil
         }
