@@ -11,6 +11,13 @@
       <source src="sounds/chasersgaming-chipscape.mp3" type="audio/mp3">
       Your browser does not support the audio element.
     </audio>
-    Can you hear me?
+    
+    <div id="join" style="font-size: 32px; width: 100%; padding: 20px; background: #c00; color: #fff; text-align: center">
+      To join, go to <span id="join_url" style="font-weight: bold"></span>
+    </div>
+    
+    <script>
+      document.getElementById("join_url").innerHTML = 'http://' + location.hostname + ":" + location.port;
+    </script>
   </body>
 </html>
