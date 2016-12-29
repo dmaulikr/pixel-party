@@ -12,15 +12,41 @@ import GoogleCast
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
+    var secondaryWindow: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Set up Chromecast options
+        // Chromecast support
         GCKLogger.sharedInstance().delegate = self
         let castOptions = GCKCastOptions(receiverApplicationID: ENV("ChromecastAppID") as! String)
         GCKCastContext.setSharedInstanceWith(castOptions)
         GCKCastContext.sharedInstance().sessionManager.add(self)
         
+        // AirPlay support
+        let screenConnectionStatusChangedNotification = NotificationCenter.default
+        screenConnectionStatusChangedNotification.addObserver(self, selector:(#selector(AppDelegate.screenConnectionStatusChanged)), name:NSNotification.Name.UIScreenDidConnect, object:nil)
+        screenConnectionStatusChangedNotification.addObserver(self, selector:(#selector(AppDelegate.screenConnectionStatusChanged)), name:NSNotification.Name.UIScreenDidDisconnect, object:nil)
+        
+        //Initial check on how many screens are connected to the device on launch of the application.
+        if (UIScreen.screens.count > 1) {
+            self.screenConnectionStatusChanged()
+        }
+        
         return true
+    }
+    
+    func screenConnectionStatusChanged(){
+        if (UIScreen.screens.count == 1) {
+            secondaryWindow = nil
+        } else {
+            let airplayScreen = UIScreen.screens.last!
+            
+            let newWindow = UIWindow(frame: airplayScreen.bounds)
+            newWindow.screen = airplayScreen
+            newWindow.isHidden = false
+            secondaryWindow = newWindow // Must be set before AirplayViewController is initialized
+            newWindow.rootViewController = AirplayViewController()
+            newWindow.makeKeyAndVisible()
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

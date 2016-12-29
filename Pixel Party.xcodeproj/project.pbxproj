@@ -17,6 +17,7 @@
 		002735AA1E156D8F00CA064F /* ENV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002735A91E156D8F00CA064F /* ENV.swift */; };
 		002735AC1E15817E00CA064F /* DataChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002735AB1E15817E00CA064F /* DataChannel.swift */; };
 		002735AE1E159D7F00CA064F /* ServerInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002735AD1E159D7F00CA064F /* ServerInstance.swift */; };
+		002735B01E15A38900CA064F /* AirplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002735AF1E15A38900CA064F /* AirplayViewController.swift */; };
 		F47557B8BC7A34C002A816B1 /* Pods_Pixel_Party.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95183EFA15EE1C977A662B17 /* Pods_Pixel_Party.framework */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		002735A91E156D8F00CA064F /* ENV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ENV.swift; sourceTree = "<group>"; };
 		002735AB1E15817E00CA064F /* DataChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataChannel.swift; sourceTree = "<group>"; };
 		002735AD1E159D7F00CA064F /* ServerInstance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerInstance.swift; sourceTree = "<group>"; };
+		002735AF1E15A38900CA064F /* AirplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AirplayViewController.swift; sourceTree = "<group>"; };
 		95183EFA15EE1C977A662B17 /* Pods_Pixel_Party.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pixel_Party.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B85769CC80229D7CBD466AA8 /* Pods-Pixel Party.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixel Party.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixel Party/Pods-Pixel Party.release.xcconfig"; sourceTree = "<group>"; };
 		D9E2556FB06334EC5FC4EB43 /* Pods-Pixel Party.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixel Party.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pixel Party/Pods-Pixel Party.debug.xcconfig"; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			children = (
 				00104FA41E144051004E2AC7 /* AppDelegate.swift */,
 				00104FA61E144051004E2AC7 /* ViewController.swift */,
+				002735AF1E15A38900CA064F /* AirplayViewController.swift */,
 				002735AB1E15817E00CA064F /* DataChannel.swift */,
 				002735AD1E159D7F00CA064F /* ServerInstance.swift */,
 				00104FAD1E144051004E2AC7 /* LaunchScreen.storyboard */,
@@ -240,6 +243,7 @@
 				002735AA1E156D8F00CA064F /* ENV.swift in Sources */,
 				00104FA71E144051004E2AC7 /* ViewController.swift in Sources */,
 				002735AE1E159D7F00CA064F /* ServerInstance.swift in Sources */,
+				002735B01E15A38900CA064F /* AirplayViewController.swift in Sources */,
 				00104FA51E144051004E2AC7 /* AppDelegate.swift in Sources */,
 				002735AC1E15817E00CA064F /* DataChannel.swift in Sources */,
 			);
