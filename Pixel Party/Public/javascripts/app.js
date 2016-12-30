@@ -1,9 +1,12 @@
-var DEBUG = false;
+var DEBUG = true;
 
 function initScoreboard(){
   window.App = new Vue({
     el: '#scoreboard',
     data: {
+      currentScreen: {
+        screenType: "LOBBY"
+      },
       debug: null,
       loading: true,
       users: null,
@@ -36,10 +39,6 @@ function initScoreboard(){
   App.onmessage = function(data) {
     App.loading = false;
 
-    if (DEBUG){
-      App.debug = JSON.stringify(data);
-    }
-
     if (data.users){
       App.users = data.users;
     }
@@ -50,7 +49,11 @@ function initPlayer(){
   window.App = new Vue({
     el: '#app',
     data: {
+      currentScreen: {
+        screenType: "LOBBY"
+      },
       debug: null,
+      joined: false,
       loading: true,
       message: null,
       username: null
@@ -70,15 +73,35 @@ function initPlayer(){
     },
     methods: {
       join: function(){
+        if (!App.username){
+          return;
+        }
+        
         App.socket.send(JSON.stringify({
           action: "JOIN",
           username: App.username
+        }));
+      },
+      start_game: function(){
+        App.socket.send(JSON.stringify({
+          action: "START_GAME"
         }));
       }
     }
   });
 
   initializeSocket("player");
+
+  App.onmessage = function(data) {
+    App.loading = false;
+
+    if (data.username){
+      App.username = data.username;
+    }
+    if (data.joined){
+      App.joined = data.joined;
+    }
+  }
 }
 
 function initializeSocket(clientType){
@@ -95,6 +118,15 @@ function initializeSocket(clientType){
       console.log("Message received.");
       console.log(event);
       var json = JSON.parse(event.data);
+
+      if (DEBUG){
+        App.debug = event.data;
+      }
+
+      if (json.currentScreen){
+          App.currentScreen = json.currentScreen;
+      }
+
       if (App.onmessage){
           App.onmessage(json);
       }
@@ -106,9 +138,5 @@ function initializeSocket(clientType){
 
   App.onmessage = function(data) {
     App.loading = false;
-
-    if (DEBUG){
-      App.debug = JSON.stringify(data);
-    }
   }
 }

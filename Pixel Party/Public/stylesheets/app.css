@@ -127,7 +127,7 @@ header, footer {
   text-align: center;
 }
 #app header {
-  padding: 15px;
+  padding: 12px 12px 10px;
 }
 #app header h1 {
   font-size: 18px;

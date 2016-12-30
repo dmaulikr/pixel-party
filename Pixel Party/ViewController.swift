@@ -124,10 +124,11 @@ class ViewController: UIViewController {
                 
                 let response = JSON([
                     "username": username,
+                    "joined": true,
                     "currentScreen": [
                         "screenType": "LOBBY"
                     ]
-                    ])
+                ])
                 session.writeText(response.rawString()!)
             } else if action == "START_GAME" {
                 let response = JSON([
@@ -135,7 +136,7 @@ class ViewController: UIViewController {
                         "screenType": "STATIC",
                         "content": "<b>testing!<br><br>score: 20</b>"
                     ]
-                    ])
+                ])
                 session.writeText(response.rawString()!)
             } else {
                 // Idk what happened, better not change anything on the client side
@@ -160,7 +161,6 @@ class ViewController: UIViewController {
             })
             let response = JSON(["users": usersData])
             scoreboard.writeText(response.rawString()!)
-            print("\(NSDate()): Updating scoreboard with \(response.rawString()!)")
         }
     }
 
