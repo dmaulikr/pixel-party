@@ -137,30 +137,37 @@ class ViewController: UIViewController {
                     ]
                 ])
                 session.writeText(response.rawString()!)
-            } else if action == "START_GAME" {
-//                let response = JSON([
-//                    "currentScreen": [
-//                        "screenType": "STATIC",
-//                        "content": "<b>testing!<br><br>score: 20</b>"
-//                    ]
-//                ])
-//                let response = JSON([
-//                    "currentScreen": [
-//                        "screenType": "TEXT",
-//                        "prompt": "What's your favorite color?"
-//                    ]
-                //                ])
-                let response = JSON([
-                    "currentScreen": [
-                        "screenType": "MULTIPLE_CHOICE",
-                        "prompt": "What's your favorite color?",
-                        "choices": [
-                            ["value": 0, "title": "Option 0"],
-                            ["value": 1, "title": "Option One"],
-                        ]
+            } else if action == "START_GAME" || action == "SUBMIT" {
+                // For now, wait 2 seconds and then generate a new page
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    let responses = [
+                        JSON([
+                            "currentScreen": [
+                                "screenType": "MULTIPLE_CHOICE",
+                                "prompt": "What's your favorite color?",
+                                "choices": [
+                                    ["value": 0, "title": "Blue"],
+                                    ["value": 1, "title": "Red"],
+                                ]
+                            ]
+                        ]),
+                        JSON([
+                            "currentScreen": [
+                                "screenType": "TEXT",
+                                "prompt": "Who's your best friend?"
+                            ]
+                        ]),
+//                        JSON([
+//                            "currentScreen": [
+//                                "screenType": "STATIC",
+//                                "prompt": "<b>testing!<br><br>score: 20</b>"
+//                            ]
+//                        ])
                     ]
-                ])
-                session.writeText(response.rawString()!)
+                    
+                    let randomResponse = responses[Int(arc4random_uniform(UInt32(responses.count)))]
+                    session.writeText(randomResponse.rawString()!)
+                }
             } else {
                 // Idk what happened, better not change anything on the client side
             }

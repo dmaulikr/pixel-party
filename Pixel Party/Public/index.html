@@ -23,21 +23,21 @@
           <div v-if="!joined">
             Enter your name:
             <input type="text" v-model="username" v-bind:placeholder="randomUsername" v-on:keyup.enter="join">
-            <button v-on:click="join">Join</button>
+            <button v-on:click="join" v-bind:disabled="disabled">Join</button>
           </div>
           <div v-else-if="joined">
             Waiting for others to join...
-            <button v-on:click="start_game">Start the game</button>
+            <button v-on:click="start_game" v-bind:disabled="disabled">Start the game</button>
           </div>
         </section>
         <section v-else-if="currentScreen.screenType == 'TEXT'">
           {{ currentScreen.prompt }}
           <input type="text" v-model="currentScreen.value" v-bind:placeholder="currentScreen.placeholder" v-on:keyup.enter="join">
-          <button v-on:click="submit">
+          <button v-on:click="submit" v-bind:disabled="disabled">Submit</button>
         </section>
         <section v-else-if="currentScreen.screenType == 'MULTIPLE_CHOICE'">
           {{ currentScreen.prompt }}
-          <button v-for="choice in currentScreen.choices" v-on:click="submitChoice(choice)">
+          <button v-for="choice in currentScreen.choices" v-on:click="submitChoice(choice)" v-bind:disabled="disabled" v-bind:class="{ selected: choice.value == App.currentScreen.value }">
             {{ choice.title }}
           </button>
         </section>

@@ -50,9 +50,10 @@ function initPlayer(){
     el: '#app',
     data: {
       currentScreen: {
-        screenType: "LOBBY"
+        screenType: "LOBBY",
       },
       debug: null,
+      disabled: false,
       joined: false,
       loading: true,
       message: null,
@@ -77,23 +78,27 @@ function initPlayer(){
           return;
         }
 
+        App.disabled = true;
         App.socket.send(JSON.stringify({
           action: "JOIN",
           username: App.username
         }));
       },
       start_game: function(){
+        App.disabled = true;
         App.socket.send(JSON.stringify({
           action: "START_GAME"
         }));
       },
       submit: function(){
+        App.disabled = true;
         App.socket.send(JSON.stringify({
           action: "SUBMIT",
           value: App.currentScreen.value
         }));
       },
       submitChoice: function(choice){
+        App.disabled = true;
         App.currentScreen.value = choice.value;
         App.submit();
       }
@@ -137,7 +142,8 @@ function initializeSocket(clientType){
       }
 
       if (json.currentScreen){
-          App.currentScreen = json.currentScreen;
+        App.disabled = false;
+        App.currentScreen = json.currentScreen;
       }
 
       if (App.onmessage){

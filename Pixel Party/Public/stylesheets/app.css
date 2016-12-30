@@ -195,6 +195,17 @@ button {
   border-radius: 3px;
   font-size: inherit;
   background: #eee;
+  color: #000;
+}
+button.selected{
+  background: #444;
+  border-color: #222;
+  color: #fff;
+}
+button:not(.selected):disabled{
+  background: #eee;
+  color: #000;
+  opacity: 0.4;
 }
 
 ul {
