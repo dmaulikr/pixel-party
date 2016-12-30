@@ -117,7 +117,7 @@ strong, b {
   padding: 10px
   font-family: monospace;
   font-size: 70%;
-  white-space: pre;
+  white-space: pre-wrap;
   border: 1px solid #ccc;
   background: #eee;
   color: #999;

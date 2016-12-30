@@ -41,7 +41,8 @@
             {{ choice.title }}
           </button>
         </section>
-        <section v-else-if="currentScreen.screenType == 'STATIC'" v-html="currentScreen.content" />
+        <section v-else-if="currentScreen.screenType == 'STATIC'" v-html="currentScreen.content">
+        </section>
         <section v-else>
           ERROR: I don't know how to display this!
         </section>

@@ -40,7 +40,8 @@
           {{ bgcolor }}
         </span>
       </section>
-      <section v-if="currentScreen.screenType == 'STATIC'" v-html="currentScreen.content" />
+      <section v-if="currentScreen.screenType == 'STATIC'" v-html="currentScreen.content">
+      </section>
 
       <div id="debug" v-if="debug">{{ debug }}</div>
 

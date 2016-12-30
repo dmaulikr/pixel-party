@@ -38,7 +38,6 @@
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vvm-Ah-V5J" customClass="MPVolumeView">
                                                 <rect key="frame" x="297" y="0.0" width="24" height="44"/>
-                                                <color key="backgroundColor" red="0.79409950650000005" green="0.42969085460000001" blue="0.43576433219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="24" id="nKt-SE-kRm"/>

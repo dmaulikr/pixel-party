@@ -13,6 +13,17 @@ import GoogleCast
 import AVFoundation
 import MediaPlayer
 
+enum PlayerViewType: String {
+    case `static` = "STATIC"
+    case text = "TEXT"
+    case multipleChoice = "MULTIPLE_CHOICE"
+}
+
+enum ScoreboardViewType: String {
+    case `static` = "STATIC"
+    case scoreboard = "SCOREBOARD"
+}
+    
 class ViewController: UIViewController {
     @IBOutlet var outputView: UIWebView!
     @IBOutlet var joinGameLabel: UILabel!
@@ -21,6 +32,7 @@ class ViewController: UIViewController {
     var server = HttpServer() // Must keep a reference to the server to keep it running
     var scoreboards: [WebSocketSession] = []
     var players: Dictionary<String, WebSocketSession> = [:]
+    var currentGame: Game? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,43 +45,8 @@ class ViewController: UIViewController {
         // Update AirPlay visibility when available routes change
         NotificationCenter.default.addObserver(self, selector:(#selector(ViewController.updateAirplayButton)), name:NSNotification.Name.MPVolumeViewWirelessRoutesAvailableDidChange, object:nil)
         
-        setJoinGameLabel()
         setUpServer()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
-    
-    // MARK: Game URL generation
-    
-    func setJoinGameLabel(){
-        guard let gameUrl = ServerInstance.baseUrl else {
-            joinGameLabel.text = "An error occurred that prevented the server from starting."
-            return
-        }
-        
-        // Assemble the two lines of the "join game" label
-        let attributedString = NSMutableAttributedString(string: "To join the game, go to:\n",
-                                                         attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 12)])
-        let serverAddress = NSMutableAttributedString(string: gameUrl,
-                                                      attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15)])
-        attributedString.append(serverAddress)
-        
-        // Make them center-aligned and increase line spacing
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 2
-        paragraphStyle.alignment = .center
-        attributedString.addAttribute(
-            NSParagraphStyleAttributeName,
-            value: paragraphStyle,
-            range: NSMakeRange(0, attributedString.length)
-        )
-        
-        // Display the result
-        joinGameLabel.attributedText = attributedString
-        
+        setUpClient()
     }
     
     
@@ -133,56 +110,27 @@ class ViewController: UIViewController {
                     "username": username,
                     "joined": true,
                     "currentScreen": [
-                        "screenType": "LOBBY"
+                        "screenType": "LOBBY",
+                        "gameInProgress": self.currentGame != nil
                     ]
                 ])
                 session.writeText(response.rawString()!)
-            } else if action == "START_GAME" || action == "SUBMIT" {
-                // For now, wait 2 seconds and then generate a new page
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    let responses = [
-                        JSON([
-                            "currentScreen": [
-                                "screenType": "MULTIPLE_CHOICE",
-                                "prompt": "What's your favorite color?",
-                                "choices": [
-                                    ["value": "0", "title": "Blue"],
-                                    ["value": "1", "title": "Red"],
-                                ]
-                            ]
-                        ]),
-                        JSON([
-                            "currentScreen": [
-                                "screenType": "TEXT",
-                                "prompt": "Who's your best friend?"
-                            ]
-                        ]),
-//                        JSON([
-//                            "currentScreen": [
-//                                "screenType": "STATIC",
-//                                "content": "<b>testing!<br><br>score: 20</b>"
-//                            ]
-//                        ])
-                    ]
-                    
-                    let randomResponse = responses[Int(arc4random_uniform(UInt32(responses.count)))]
-                    session.writeText(randomResponse.rawString()!)
-                }
                 
-                // Update scoreboard(s)
-                // TODO: for submitted values, support data types other than String
-                if let value = json["value"].string {
-                    let scoreboardUpdate = JSON([
-                        "currentScreen": [
-                            "screenType": "STATIC",
-                            "content": "<b>Value:</b><br><br>\(value)"  // TODO: HTML escaping
-                        ]
-                    ])
-                    
-                    for scoreboard in self.scoreboards {
-                        scoreboard.writeText(scoreboardUpdate.rawString()!)
-                    }
+                // Also update all scoreboards
+                let usersData = self.players.map({ (player: (username: String, session: WebSocketSession)) -> [String: Any] in
+                    return ["username": player.username]
+                })
+                let scoreboardUpdate = JSON(["users": usersData])
+                
+                for scoreboard in self.scoreboards {
+                    scoreboard.writeText(scoreboardUpdate.rawString()!)
                 }
+            } else if action == "START_GAME" && self.currentGame == nil {
+                self.currentGame = LolCards(players: Array(self.players.keys), delegate: self)
+                self.currentGame?.start()
+            } else if action == "SUBMIT" && self.currentGame != nil {
+                // TODO: figure out who this message is actually from
+                self.currentGame?.messageReceived(fromPlayer: self.players.keys.first!, message: json)
             } else {
                 // Idk what happened, better not change anything on the client side
             }
@@ -191,32 +139,66 @@ class ViewController: UIViewController {
         })
         
         try! server.start(ENV("Port") as! UInt16)
-        
-        outputView.loadRequest(URLRequest(url: URL(string: ServerInstance.baseUrl!)!))
-        
-        // Update scoreboards every few seconds
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(ViewController.updateScoreboards), userInfo: nil, repeats: true)
     }
     
-    func updateScoreboards(){
-        for scoreboard in scoreboards {
-            let usersData = players.map({ (player: (username: String, session: WebSocketSession)) -> [String: Any] in
-                return ["username": player.username]
-            })
-            let response = JSON(["users": usersData])
-            scoreboard.writeText(response.rawString()!)
-        }
+    
+    // MARK: Local client logic
+    
+    func setUpClient(){
+        // Display the server URL in the app
+        updateJoinGameLabel()
+        
+        // Load the player view in the app
+        outputView.loadRequest(URLRequest(url: URL(string: ServerInstance.baseUrl!)!))
     }
-
-//    func ping(){
-//        for (username, session) in openSessions {
-//            let response = JSON(["heartbeat": Int(arc4random())])
-//            session.writeText(response.rawString()!)
-//            print("\(NSDate()): Pinging \(username)")
-//        }
-//    }
+    
+    func updateJoinGameLabel(){
+        guard let gameUrl = ServerInstance.baseUrl else {
+            joinGameLabel.text = "An error occurred that prevented\nthe server from starting."
+            return
+        }
+        
+        // Assemble the two lines of the "join game" label
+        let attributedString = NSMutableAttributedString(string: "To join the game, go to:\n",
+                                                         attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 12)])
+        let serverAddress = NSMutableAttributedString(string: gameUrl,
+                                                      attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15)])
+        attributedString.append(serverAddress)
+        
+        // Make them center-aligned and increase line spacing
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 2
+        paragraphStyle.alignment = .center
+        attributedString.addAttribute(
+            NSParagraphStyleAttributeName,
+            value: paragraphStyle,
+            range: NSMakeRange(0, attributedString.length)
+        )
+        
+        // Display the result
+        joinGameLabel.attributedText = attributedString
+        
+    }
     
     func updateAirplayButton(){
+        // Hide the AirPlay button unless there are actual AirPlay devices
         airplayButton.isHidden = !airplayButton.areWirelessRoutesAvailable
+    }
+}
+
+extension ViewController: GameDelegate {
+    func updateScoreboards(_ message: Dictionary<String, Any>){
+        let jsonMessage = JSON(message).rawString()!
+        for scoreboard in scoreboards {
+            scoreboard.writeText(jsonMessage)
+        }
+    }
+    
+    func update(_ player: String, message: Dictionary<String, Any>){
+        // TODO
+        let jsonMessage = JSON(message).rawString()!
+        for (_, playerSession) in players {
+            playerSession.writeText(jsonMessage)
+        }
     }
 }
