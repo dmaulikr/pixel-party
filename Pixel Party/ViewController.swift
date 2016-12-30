@@ -19,7 +19,8 @@ class ViewController: UIViewController {
     @IBOutlet var airplayButton: MPVolumeView!
     
     var server = HttpServer() // Must keep a reference to the server to keep it running
-    var openSessions: Dictionary<String, WebSocketSession> = [:]
+    var scoreboards: [WebSocketSession] = []
+    var players: Dictionary<String, WebSocketSession> = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,23 +98,29 @@ class ViewController: UIViewController {
         // WebSocket functionality
         server["/socket"] = websocket({ (session, text) in
             // For testing, print all inputs to the mobile screen
-            // DispatchQueue.main.async {
-            //     self.outputView.loadHTMLString(text, baseURL: nil)
-            // }
+            DispatchQueue.main.async {
+                print(text)
+                // self.outputView.loadHTMLString(text, baseURL: nil)
+            }
             
             let data = text.data(using: String.Encoding.utf8)
             var json = JSON(data: data!)
             let action = json["action"].string
             
             if action == "INIT" {
+                if json["clientType"] == "scoreboard" {
+                    self.scoreboards.append(session)
+                    return
+                }
+                
                 let response = JSON([
                     "currentScreen": [
                         "screenType": "LOBBY"
                     ]
-                    ])
+                ])
                 session.writeText(response.rawString()!)
             } else if let username = json["username"].string, action == "JOIN" {
-                self.openSessions[username] = session
+                self.players[username] = session
                 
                 let response = JSON([
                     "username": username,
@@ -142,17 +149,28 @@ class ViewController: UIViewController {
         
         outputView.loadRequest(URLRequest(url: URL(string: ServerInstance.baseUrl!)!))
         
-        // Ping every 5 seconds to keep connections alive
-        Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(ViewController.ping), userInfo: nil, repeats: true)
+        // Update scoreboards every few seconds
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(ViewController.updateScoreboards), userInfo: nil, repeats: true)
     }
     
-    func ping(){
-        for (username, session) in openSessions {
-            let response = JSON(["heartbeat": Int(arc4random())])
-            session.writeText(response.rawString()!)
-            print("\(NSDate()): Pinging \(username)")
+    func updateScoreboards(){
+        for scoreboard in scoreboards {
+            let usersData = players.map({ (player: (username: String, session: WebSocketSession)) -> [String: Any] in
+                return ["username": player.username]
+            })
+            let response = JSON(["users": usersData])
+            scoreboard.writeText(response.rawString()!)
+            print("\(NSDate()): Updating scoreboard with \(response.rawString()!)")
         }
     }
+
+//    func ping(){
+//        for (username, session) in openSessions {
+//            let response = JSON(["heartbeat": Int(arc4random())])
+//            session.writeText(response.rawString()!)
+//            print("\(NSDate()): Pinging \(username)")
+//        }
+//    }
     
     func updateAirplayButton(){
         airplayButton.isHidden = !airplayButton.areWirelessRoutesAvailable

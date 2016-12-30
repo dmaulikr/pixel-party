@@ -4,20 +4,48 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Pixel Party!</title>
+
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="javascripts/app.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="stylesheets/app.css">
   </head>
-  <body>
+  <body onload="initScoreboard()">
     <audio autoplay loop>
       <source src="sounds/chasersgaming-chipscape.mp3" type="audio/mp3">
       Your browser does not support the audio element.
     </audio>
-    
-    <div id="join" style="font-size: 32px; width: 100%; padding: 20px; background: #c00; color: #fff; text-align: center">
-      To join, go to <span id="join_url" style="font-weight: bold"></span>
+
+    <div id="scoreboard" v-cloak>
+      <header>
+        <h1>Pixel Party!</h1>
+      </header>
+
+      <div id="loading" v-if="loading">Loading...</div>
+      <div v-if="!loading && users">
+        <h1>Scores</h1>
+        <ul>
+          <li v-for="user in users">
+            <strong>{{ user.username }}:</strong>
+            <span v-if="user.score">{{ user.score }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div id="debug" v-if="debug">{{ debug }}</div>
+
+      <footer>
+        <div class="marquee">
+          <span>Join: {{ gameUrl }}</span
+          ><span class="separator">•</span
+          ><span>Join: {{ gameUrl }}</span
+          ><span class="separator">•</span
+          ><span>Join: {{ gameUrl }}</span
+          ><span class="separator">•</span
+          ><span>Join: {{ gameUrl }}</span
+          ><span class="separator">•</span>
+        </div>
+      </footer>
     </div>
-    
-    <script>
-      document.getElementById("join_url").innerHTML = 'http://' + location.hostname + ":" + location.port;
-    </script>
   </body>
 </html>
