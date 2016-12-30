@@ -30,6 +30,11 @@
             <button v-on:click="start_game">Start the game</button>
           </div>
         </section>
+        <section v-else-if="currentScreen.screenType == 'TEXT'">
+          {{ currentScreen.prompt }}
+          <input type="text" v-model="currentScreen.value" v-bind:placeholder="currentScreen.placeholder" v-on:keyup.enter="join">
+          <button v-on:click="submit">Submit</button>
+        </section>
         <section v-else-if="currentScreen.screenType == 'STATIC'" v-html="currentScreen.content" />
       </div>
 

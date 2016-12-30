@@ -56,7 +56,7 @@ function initPlayer(){
       joined: false,
       loading: true,
       message: null,
-      username: null
+      username: localStorage ? localStorage.getItem("username") : null
     },
     computed: {
       randomUsername: function() {
@@ -76,7 +76,7 @@ function initPlayer(){
         if (!App.username){
           return;
         }
-        
+
         App.socket.send(JSON.stringify({
           action: "JOIN",
           username: App.username
@@ -85,6 +85,12 @@ function initPlayer(){
       start_game: function(){
         App.socket.send(JSON.stringify({
           action: "START_GAME"
+        }));
+      },
+      submit: function(){
+        App.socket.send(JSON.stringify({
+          action: "SUBMIT",
+          value: App.currentScreen.value
         }));
       }
     }
@@ -97,6 +103,9 @@ function initPlayer(){
 
     if (data.username){
       App.username = data.username;
+      if (localStorage){
+        localStorage.setItem("username", App.username)
+      }
     }
     if (data.joined){
       App.joined = data.joined;
@@ -134,6 +143,8 @@ function initializeSocket(clientType){
 
   App.socket.onclose = function (event) {
       console.log("Connection lost.");
+      alert("Connection lost. Please try connecting again!")
+      location.reload();
   };
 
   App.onmessage = function(data) {

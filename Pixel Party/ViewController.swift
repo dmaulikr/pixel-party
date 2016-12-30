@@ -120,6 +120,13 @@ class ViewController: UIViewController {
                 ])
                 session.writeText(response.rawString()!)
             } else if let username = json["username"].string, action == "JOIN" {
+                // If there is an existing session for this username, replace it
+                if let _ = self.players[username] {
+                    // TODO: fix bug when trying to reconnect from a disconnected client
+                    // This is a workaround - the player has to try to re-join twice, but it works
+                    self.players.removeValue(forKey: username)
+                    return
+                }
                 self.players[username] = session
                 
                 let response = JSON([
@@ -131,12 +138,18 @@ class ViewController: UIViewController {
                 ])
                 session.writeText(response.rawString()!)
             } else if action == "START_GAME" {
+//                let response = JSON([
+//                    "currentScreen": [
+//                        "screenType": "STATIC",
+//                        "content": "<b>testing!<br><br>score: 20</b>"
+//                    ]
+//                ])
                 let response = JSON([
                     "currentScreen": [
-                        "screenType": "STATIC",
-                        "content": "<b>testing!<br><br>score: 20</b>"
+                        "screenType": "TEXT",
+                        "prompt": "What's your favorite color?"
                     ]
-                ])
+                    ])
                 session.writeText(response.rawString()!)
             } else {
                 // Idk what happened, better not change anything on the client side
