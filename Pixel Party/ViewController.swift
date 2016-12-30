@@ -146,8 +146,8 @@ class ViewController: UIViewController {
                                 "screenType": "MULTIPLE_CHOICE",
                                 "prompt": "What's your favorite color?",
                                 "choices": [
-                                    ["value": 0, "title": "Blue"],
-                                    ["value": 1, "title": "Red"],
+                                    ["value": "0", "title": "Blue"],
+                                    ["value": "1", "title": "Red"],
                                 ]
                             ]
                         ]),
@@ -160,13 +160,28 @@ class ViewController: UIViewController {
 //                        JSON([
 //                            "currentScreen": [
 //                                "screenType": "STATIC",
-//                                "prompt": "<b>testing!<br><br>score: 20</b>"
+//                                "content": "<b>testing!<br><br>score: 20</b>"
 //                            ]
 //                        ])
                     ]
                     
                     let randomResponse = responses[Int(arc4random_uniform(UInt32(responses.count)))]
                     session.writeText(randomResponse.rawString()!)
+                }
+                
+                // Update scoreboard(s)
+                // TODO: for submitted values, support data types other than String
+                if let value = json["value"].string {
+                    let scoreboardUpdate = JSON([
+                        "currentScreen": [
+                            "screenType": "STATIC",
+                            "content": "<b>Value:</b><br><br>\(value)"  // TODO: HTML escaping
+                        ]
+                    ])
+                    
+                    for scoreboard in self.scoreboards {
+                        scoreboard.writeText(scoreboardUpdate.rawString()!)
+                    }
                 }
             } else {
                 // Idk what happened, better not change anything on the client side
