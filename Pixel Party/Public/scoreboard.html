@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Pixel Party!</title>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
     <script src="javascripts/app.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
@@ -21,16 +22,24 @@
         <h1>Pixel Party!</h1>
       </header>
 
-      <div id="loading" v-if="loading">Loading...</div>
-      <div v-if="!loading && users">
-        <h1>Scores</h1>
-        <ul>
-          <li v-for="user in users">
-            <strong>{{ user.username }}:</strong>
-            <span v-if="user.score">{{ user.score }}</span>
-          </li>
-        </ul>
-      </div>
+      <section>
+        <div id="loading" v-if="loading">Loading...</div>
+        <div v-if="!loading">
+          <h1>Waiting for players...</h1>
+          <ul v-if="users && users.length > 0">
+            <li v-for="user in users">
+              <strong>{{ user.username }}</strong>
+              <span v-if="user.score">{{ user.score }}</span>
+            </li>
+          </ul>
+          <div v-else>
+            No players yet
+          </div>
+        </div>
+        <span v-for="bgcolor in colors" v-bind:style="{ background: bgcolor, height: '50px', display: 'inline-block', 'margin': '20px' }">
+          {{ bgcolor }}
+        </span>
+      </section>
 
       <div id="debug" v-if="debug">{{ debug }}</div>
 

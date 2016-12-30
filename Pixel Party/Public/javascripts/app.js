@@ -1,10 +1,28 @@
+var DEBUG = false;
+
 function initScoreboard(){
   window.App = new Vue({
     el: '#scoreboard',
     data: {
       debug: null,
       loading: true,
-      users: null
+      users: null,
+      colors: ["#140b1c",
+               "#452334",
+               "#2f346c",
+               "#844a32",
+               "#366226",
+               "#5d7ac9",
+               "#d14644",
+               "#87949d",
+               "#6da72c",
+               "#d5a79d",
+               "#6ec3ca",
+               "#d6d560",
+               "#deeed1",
+               "#4f4b4d",
+               "#736f5c",
+               "#d57a25"]
     },
     computed: {
       gameUrl: function() {
@@ -17,7 +35,10 @@ function initScoreboard(){
 
   App.onmessage = function(data) {
     App.loading = false;
-    App.debug = JSON.stringify(data);
+
+    if (DEBUG){
+      App.debug = JSON.stringify(data);
+    }
 
     if (data.users){
       App.users = data.users;
@@ -36,7 +57,15 @@ function initPlayer(){
     },
     computed: {
       randomUsername: function() {
-        return _.sample("Scrooge McDuck", "Abigail Adams", "The Yellow Dart");
+        return _.sample([
+          "Scrooge McDuck",
+          "Abigail Adams",
+          "The Yellow Dart",
+          "Bon Jittner",
+          "Ramona Flowers",
+          "Stevonnie",
+          "Mr. Cool"
+        ]);
       }
     },
     methods: {
@@ -77,6 +106,9 @@ function initializeSocket(clientType){
 
   App.onmessage = function(data) {
     App.loading = false;
-    App.debug = JSON.stringify(data);
+
+    if (DEBUG){
+      App.debug = JSON.stringify(data);
+    }
   }
 }

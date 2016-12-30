@@ -19,9 +19,11 @@
           <h1>Pixel Party!</h1>
           <h2 v-if="username">{{ username }}</h2>
         </header>
-        Enter your name:
-        <input type="text" v-model="username" placeholder="{{ randomUsername() }}">
-        <button v-on:click="join">Join</button>
+        <section>
+          Enter your name:
+          <input type="text" v-model="username" v-bind:placeholder="randomUsername" v-on:keyup.enter="join">
+          <button v-on:click="join">Join</button>
+        </section>
       </div>
 
       <div id="debug" v-if="debug">{{ debug }}</div>
