@@ -92,6 +92,10 @@ function initPlayer(){
           action: "SUBMIT",
           value: App.currentScreen.value
         }));
+      },
+      submitChoice: function(choice){
+        App.currentScreen.value = choice.value;
+        App.submit();
       }
     }
   });

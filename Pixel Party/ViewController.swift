@@ -144,16 +144,25 @@ class ViewController: UIViewController {
 //                        "content": "<b>testing!<br><br>score: 20</b>"
 //                    ]
 //                ])
+//                let response = JSON([
+//                    "currentScreen": [
+//                        "screenType": "TEXT",
+//                        "prompt": "What's your favorite color?"
+//                    ]
+                //                ])
                 let response = JSON([
                     "currentScreen": [
-                        "screenType": "TEXT",
-                        "prompt": "What's your favorite color?"
+                        "screenType": "MULTIPLE_CHOICE",
+                        "prompt": "What's your favorite color?",
+                        "choices": [
+                            ["value": 0, "title": "Option 0"],
+                            ["value": 1, "title": "Option One"],
+                        ]
                     ]
-                    ])
+                ])
                 session.writeText(response.rawString()!)
             } else {
                 // Idk what happened, better not change anything on the client side
-                session.writeText("{}")
             }
         }, { (session, binary) in
             session.writeBinary(binary)

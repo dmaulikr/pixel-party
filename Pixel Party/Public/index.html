@@ -33,9 +33,18 @@
         <section v-else-if="currentScreen.screenType == 'TEXT'">
           {{ currentScreen.prompt }}
           <input type="text" v-model="currentScreen.value" v-bind:placeholder="currentScreen.placeholder" v-on:keyup.enter="join">
-          <button v-on:click="submit">Submit</button>
+          <button v-on:click="submit">
+        </section>
+        <section v-else-if="currentScreen.screenType == 'MULTIPLE_CHOICE'">
+          {{ currentScreen.prompt }}
+          <button v-for="choice in currentScreen.choices" v-on:click="submitChoice(choice)">
+            {{ choice.title }}
+          </button>
         </section>
         <section v-else-if="currentScreen.screenType == 'STATIC'" v-html="currentScreen.content" />
+        <section v-else>
+          ERROR: I don't know how to display this!
+        </section>
       </div>
 
       <div id="debug" v-if="debug">{{ debug }}</div>
