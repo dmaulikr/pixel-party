@@ -14,12 +14,14 @@ import AVFoundation
 import MediaPlayer
 
 enum PlayerViewType: String {
+    case lobby = "LOBBY"
     case `static` = "STATIC"
     case text = "TEXT"
     case multipleChoice = "MULTIPLE_CHOICE"
 }
 
 enum ScoreboardViewType: String {
+    case lobby = "LOBBY"
     case `static` = "STATIC"
     case scoreboard = "SCOREBOARD"
 }
@@ -102,7 +104,7 @@ class ViewController: UIViewController {
             if action == "INIT" {
                 let response = JSON([
                     "currentScreen": [
-                        "screenType": "LOBBY",
+                        "screenType": PlayerViewType.lobby.rawValue,
                         "gameInProgress": self.currentGame != nil
                     ]
                 ])
@@ -121,7 +123,7 @@ class ViewController: UIViewController {
                     "username": username,
                     "joined": true,
                     "currentScreen": [
-                        "screenType": "LOBBY",
+                        "screenType": PlayerViewType.lobby.rawValue,
                         "gameInProgress": self.currentGame != nil
                     ]
                 ])

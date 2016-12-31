@@ -14,14 +14,14 @@ class LolCards: Game {
         updateScoreboard([
             "currentScreen": [
                 "screenType": ScoreboardViewType.static.rawValue,
-                "content": "<strong>Let's play LOLCards!</strong><br><br>Random number: \(arc4random())"
+                "content": "<strong>Let's play LOLCards!</strong>"
             ]
         ])
         
         updatePlayers([
             "currentScreen": [
                 "screenType": PlayerViewType.static.rawValue,
-                "content": "<strong>Let's play LOLCards!</strong><br><br>Random number: \(arc4random())"
+                "content": "<strong>Let's play LOLCards!</strong>"
             ]
         ])
         
