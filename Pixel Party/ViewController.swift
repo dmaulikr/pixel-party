@@ -208,10 +208,6 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: GameDelegate {
-    func updateScoreboard(_ message: Dictionary<String, Any>){
-        self.scoreboard = message
-    }
-    
     func update(_ player: String, message: Dictionary<String, Any>){
         let jsonMessage = JSON(message).rawString()!
         players[player]?.writeText(jsonMessage)

@@ -11,7 +11,7 @@ import SwiftyJSON
 
 class Game {
     let players: [String]
-    let delegate: GameDelegate
+    var delegate: GameDelegate
     
     init(players: [String], delegate: GameDelegate) {
         self.players = players
@@ -33,7 +33,7 @@ class Game {
     }
     
     func updateScoreboard(_ message: Dictionary<String, Any>){
-        delegate.updateScoreboard(message)
+        delegate.scoreboard = message
     }
     
     func update(_ player: String, message: Dictionary<String, Any>){
@@ -42,6 +42,6 @@ class Game {
 }
 
 protocol GameDelegate {
-    func updateScoreboard(_ message: Dictionary<String, Any>)
+    var scoreboard: Dictionary<String, Any> { get set }
     func update(_ player: String, message: Dictionary<String, Any>)
 }
