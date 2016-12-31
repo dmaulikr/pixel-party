@@ -11,7 +11,7 @@ import SwiftyJSON
 
 class LolCards: Game {
     override func start(){
-        updateScoreboards([
+        updateScoreboard([
             "currentScreen": [
                 "screenType": ScoreboardViewType.static.rawValue,
                 "content": "<strong>Let's play LOLCards!</strong><br><br>Random number: \(arc4random())"
@@ -40,7 +40,7 @@ class LolCards: Game {
         // Update scoreboard(s) with the received value
         // TODO: for submitted values, support data types other than String
         if let value = message["value"].string {
-            self.updateScoreboards([
+            updateScoreboard([
                 "currentScreen": [
                     "screenType": ScoreboardViewType.static.rawValue,
                     "content": "<b>Value:</b><br><br>\(value)"  // TODO: HTML escaping

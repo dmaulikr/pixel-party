@@ -30,7 +30,12 @@ class ViewController: UIViewController {
     @IBOutlet var airplayButton: MPVolumeView!
     
     var server = HttpServer() // Must keep a reference to the server to keep it running
-    var scoreboards: [WebSocketSession] = []
+    
+    var scoreboard: Dictionary<String, Any> = [:] {
+        didSet { self.updateScoreboardInstances() }
+    }
+    var scoreboardInstances: [WebSocketSession] = []
+    
     var players: Dictionary<String, WebSocketSession> = [:]
     var currentGame: Game? = nil
 
@@ -74,25 +79,31 @@ class ViewController: UIViewController {
         
         // WebSocket functionality
         server["/socket"] = websocket({ (session, text) in
-            // For testing, print all inputs to the mobile screen
-            DispatchQueue.main.async {
-                print(text)
-                // self.outputView.loadHTMLString(text, baseURL: nil)
-            }
+            // For testing, print all messages to the console
+            print(text)
             
             let data = text.data(using: String.Encoding.utf8)
             var json = JSON(data: data!)
             let action = json["action"].string
+            let clientType = json["clientType"].string
             
-            if action == "INIT" {
-                if json["clientType"] == "scoreboard" {
-                    self.scoreboards.append(session)
-                    return
+            if clientType == "scoreboard" {
+                // If initializing, add this scoreboard to our list of scoreboards
+                if action == "INIT" {
+                    self.scoreboardInstances.append(session)
                 }
                 
+                // Return current scoreboard contents
+                session.writeText(JSON(self.scoreboard).rawString()!)
+                return
+            }
+            
+            // Otherwise, we're talking to an individual player
+            if action == "INIT" {
                 let response = JSON([
                     "currentScreen": [
-                        "screenType": "LOBBY"
+                        "screenType": "LOBBY",
+                        "gameInProgress": self.currentGame != nil
                     ]
                 ])
                 session.writeText(response.rawString()!)
@@ -116,21 +127,15 @@ class ViewController: UIViewController {
                 ])
                 session.writeText(response.rawString()!)
                 
-                // Also update all scoreboards
-                let usersData = self.players.map({ (player: (username: String, session: WebSocketSession)) -> [String: Any] in
-                    return ["username": player.username]
-                })
-                let scoreboardUpdate = JSON(["users": usersData])
-                
-                for scoreboard in self.scoreboards {
-                    scoreboard.writeText(scoreboardUpdate.rawString()!)
-                }
+                // Update all scoreboards, make sure they know about the new users
+                self.updateScoreboardInstances()
             } else if action == "START_GAME" && self.currentGame == nil {
                 self.currentGame = LolCards(players: Array(self.players.keys), delegate: self)
                 self.currentGame?.start()
             } else if action == "SUBMIT" && self.currentGame != nil {
-                // TODO: figure out who this message is actually from
-                self.currentGame?.messageReceived(fromPlayer: self.players.keys.first!, message: json)
+                if let playerName = self.players.key(forValue: session) {
+                    self.currentGame?.messageReceived(fromPlayer: playerName, message: json)
+                }
             } else {
                 // Idk what happened, better not change anything on the client side
             }
@@ -139,6 +144,22 @@ class ViewController: UIViewController {
         })
         
         try! server.start(ENV("Port") as! UInt16)
+    }
+    
+    func updateScoreboardInstances(){
+        // Update all scoreboardInstances with the latest information
+        var scoreboardInstanceUpdate = self.scoreboard
+        
+        // Automatically include information about all players
+        scoreboardInstanceUpdate["users"] = self.players.map({ (player: (username: String, session: WebSocketSession)) -> [String: Any] in
+            return ["username": player.username]
+        })
+        
+        // Send that info to all individual scoreboard instances
+        let jsonMessage = JSON(scoreboardInstanceUpdate).rawString()!
+        for scoreboardInstance in scoreboardInstances {
+            scoreboardInstance.writeText(jsonMessage)
+        }
     }
     
     
@@ -187,18 +208,18 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: GameDelegate {
-    func updateScoreboards(_ message: Dictionary<String, Any>){
-        let jsonMessage = JSON(message).rawString()!
-        for scoreboard in scoreboards {
-            scoreboard.writeText(jsonMessage)
-        }
+    func updateScoreboard(_ message: Dictionary<String, Any>){
+        self.scoreboard = message
     }
     
     func update(_ player: String, message: Dictionary<String, Any>){
-        // TODO
         let jsonMessage = JSON(message).rawString()!
-        for (_, playerSession) in players {
-            playerSession.writeText(jsonMessage)
-        }
+        players[player]?.writeText(jsonMessage)
+    }
+}
+
+extension Dictionary where Value: Equatable {
+    func key(forValue val: Value) -> Key? {
+        return self.filter{ $1 == val }.first?.key
     }
 }

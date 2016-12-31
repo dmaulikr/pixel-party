@@ -32,8 +32,8 @@ class Game {
         }
     }
     
-    func updateScoreboards(_ message: Dictionary<String, Any>){
-        delegate.updateScoreboards(message)
+    func updateScoreboard(_ message: Dictionary<String, Any>){
+        delegate.updateScoreboard(message)
     }
     
     func update(_ player: String, message: Dictionary<String, Any>){
@@ -42,6 +42,6 @@ class Game {
 }
 
 protocol GameDelegate {
-    func updateScoreboards(_ message: Dictionary<String, Any>)
+    func updateScoreboard(_ message: Dictionary<String, Any>)
     func update(_ player: String, message: Dictionary<String, Any>)
 }

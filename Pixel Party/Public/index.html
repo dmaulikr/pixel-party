@@ -25,7 +25,10 @@
             <input type="text" v-model="username" v-bind:placeholder="randomUsername" v-on:keyup.enter="join">
             <button v-on:click="join" v-bind:disabled="disabled">Join</button>
           </div>
-          <div v-else-if="joined">
+          <div v-else-if="joined && currentScreen.gameInProgress">
+            Game already in progress; please wait for the next game
+          </div>
+          <div v-else-if="joined && !currentScreen.gameInProgress">
             Waiting for others to join...
             <button v-on:click="start_game" v-bind:disabled="disabled">Start the game</button>
           </div>
