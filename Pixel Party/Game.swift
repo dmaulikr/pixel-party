@@ -9,17 +9,31 @@
 import Foundation
 import SwiftyJSON
 
-class Game {
+class Game: NSObject {
     let players: [String]
     var delegate: GameDelegate
     
     init(players: [String], delegate: GameDelegate) {
         self.players = players
         self.delegate = delegate
+        super.init()
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.messageReceivedNotificationHandler),
+                                               name: NSNotification.Name(rawValue: messageReceivedNotification),
+                                               object: nil)
     }
     
     func start(){
         fatalError("Subclasses must implement start()")
+    }
+    
+    func messageReceivedNotificationHandler(notification: NSNotification){
+        if let object = notification.object as? Dictionary<String, Any>,
+            let username = object["username"] as? String,
+            let data = object["data"] as? JSON {
+            messageReceived(fromPlayer: username, message: data)
+        }
     }
     
     func messageReceived(fromPlayer player: String, message: JSON){

@@ -13,6 +13,8 @@ import GoogleCast
 import AVFoundation
 import MediaPlayer
 
+let messageReceivedNotification = "com.rofreg.Pixel-Party.messageReceivedNotification"
+
 enum PlayerViewType: String {
     case lobby = "LOBBY"
     case `static` = "STATIC"
@@ -135,8 +137,11 @@ class ViewController: UIViewController {
                 self.currentGame = LolCards(players: Array(self.players.keys), delegate: self)
                 self.currentGame?.start()
             } else if action == "SUBMIT" && self.currentGame != nil {
-                if let playerName = self.players.key(forValue: session) {
-                    self.currentGame?.messageReceived(fromPlayer: playerName, message: json)
+                if let username = self.players.key(forValue: session) {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: messageReceivedNotification), object: [
+                        "username": username,
+                        "data": json
+                    ])
                 }
             } else {
                 // Idk what happened, better not change anything on the client side

@@ -10,6 +10,8 @@ import Foundation
 import SwiftyJSON
 
 class LolCards: Game {
+    var timer: Timer? = Timer()
+    
     override func start(){
         updateScoreboard([
             "currentScreen": [
@@ -25,15 +27,21 @@ class LolCards: Game {
             ]
         ])
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-            self.updatePlayers([
-                "currentScreen": [
-                    "screenType": PlayerViewType.text.rawValue,
-                    "prompt": "Say something funny",
-                    "placeholder": "Blah blah blah"
-                ]
-            ])
+        // Start a timer
+        DispatchQueue.main.async {
+            self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(LolCards.showQuestion), userInfo: nil, repeats: true)
         }
+        // Can be cancelled with self.timer?.invalidate()
+    }
+    
+    func showQuestion() {
+        self.updatePlayers([
+            "currentScreen": [
+                "screenType": PlayerViewType.text.rawValue,
+                "prompt": "Say something funny",
+                "placeholder": "Blah blah blah"
+            ]
+        ])
     }
     
     override func messageReceived(fromPlayer player: String, message: JSON) {
