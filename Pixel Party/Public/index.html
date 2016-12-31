@@ -15,20 +15,20 @@
     <div id="app" v-cloak>
       <div id="loading" v-if="loading">Loading...</div>
       <div v-else>
-        <header>
+        <header v-bind:style="{ background: metadata.currentPlayer ? metadata.currentPlayer.color : false }">
           <h1>Pixel Party!</h1>
-          <h2 v-if="joined">{{ username }}</h2>
+          <h2 v-if="metadata.currentPlayer">{{ metadata.currentPlayer.username }}</h2>
         </header>
         <section v-if="currentScreen.screenType == 'LOBBY'">
-          <div v-if="!joined">
+          <div v-if="!metadata.currentPlayer">
             Enter your name:
-            <input type="text" v-model="username" v-bind:placeholder="randomUsername" v-on:keyup.enter="join">
+            <input type="text" v-model="currentScreen.value" v-bind:placeholder="randomUsername" v-on:keyup.enter="join">
             <button v-on:click="join" v-bind:disabled="disabled">Join</button>
           </div>
-          <div v-else-if="joined && currentScreen.gameInProgress">
+          <div v-else-if="metadata.currentPlayer && metadata.game.inProgress">
             Game already in progress; please wait for the next game
           </div>
-          <div v-else-if="joined && !currentScreen.gameInProgress">
+          <div v-else-if="metadata.currentPlayer && !metadata.game.inProgress">
             Waiting for others to join...
             <button v-on:click="start_game" v-bind:disabled="disabled">Start the game</button>
           </div>

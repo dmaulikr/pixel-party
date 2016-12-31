@@ -21,9 +21,21 @@ extension UIColor {
         self.init(red:(hex >> 16) & 0xff, green:(hex >> 8) & 0xff, blue:hex & 0xff)
     }
     
+    func hexString() -> String {
+        var r:CGFloat = 0
+        var g:CGFloat = 0
+        var b:CGFloat = 0
+        var a:CGFloat = 0
+        
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        
+        let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+        
+        return String(format:"#%06x", rgb)
+    }
+    
     // based on https://pbs.twimg.com/media/CuV6mBNXYAEYGPj.jpg:large
-    static let palette = [UIColor(hex:0x140b1c),
-                          UIColor(hex:0x452334),
+    static let palette = [UIColor(hex:0x452334),
                           UIColor(hex:0x2f346c),
                           UIColor(hex:0x844a32),
                           UIColor(hex:0x366226),
@@ -37,5 +49,6 @@ extension UIColor {
                           UIColor(hex:0xdeeed1),
                           UIColor(hex:0x4f4b4d),
                           UIColor(hex:0x736f5c),
-                          UIColor(hex:0xd57a25)]
+                          UIColor(hex:0xd57a25),
+                          UIColor(hex:0x140b1c)]
 }

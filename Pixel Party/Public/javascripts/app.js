@@ -9,7 +9,7 @@ function initScoreboard(){
       },
       debug: null,
       loading: true,
-      users: null,
+      metadata: {},
       colors: ["#140b1c",
                "#452334",
                "#2f346c",
@@ -35,14 +35,6 @@ function initScoreboard(){
   });
 
   initializeSocket("scoreboard");
-
-  App.onmessage = function(data) {
-    App.loading = false;
-
-    if (data.users){
-      App.users = data.users;
-    }
-  }
 }
 
 function initPlayer(){
@@ -51,13 +43,12 @@ function initPlayer(){
     data: {
       currentScreen: {
         screenType: "LOBBY",
+        value: localStorage ? localStorage.getItem("username") : null
       },
       debug: null,
       disabled: false,
-      joined: false,
       loading: true,
-      message: null,
-      username: localStorage ? localStorage.getItem("username") : null
+      metadata: {},
     },
     computed: {
       randomUsername: function() {
@@ -74,14 +65,14 @@ function initPlayer(){
     },
     methods: {
       join: function(){
-        if (!App.username){
+        if (!App.currentScreen.value){
           return;
         }
 
         App.disabled = true;
         App.socket.send(JSON.stringify({
           action: "JOIN",
-          username: App.username
+          username: App.currentScreen.value
         }));
       },
       start_game: function(){
@@ -108,13 +99,8 @@ function initPlayer(){
   initializeSocket("player");
 
   App.onmessage = function(data) {
-    App.loading = false;
-
-    if (data.username){
-      App.username = data.username;
-      if (localStorage){
-        localStorage.setItem("username", App.username)
-      }
+    if (localStorage && data.metadata.currentPlayer){
+      localStorage.setItem("username", data.metadata.currentPlayer.username)
     }
     if (data.joined){
       App.joined = data.joined;
@@ -127,6 +113,7 @@ function initializeSocket(clientType){
 
   App.socket.onopen = function (event) {
       console.log("Connection established.");
+      App.loading = false;
 
       // Get initial screen information from the server
       this.send(JSON.stringify({action: "INIT", clientType: clientType}));
@@ -146,6 +133,10 @@ function initializeSocket(clientType){
         App.currentScreen = json.currentScreen;
       }
 
+      if (json.metadata){
+        App.metadata = json.metadata;
+      }
+
       if (App.onmessage){
           App.onmessage(json);
       }
@@ -156,8 +147,4 @@ function initializeSocket(clientType){
       alert("Connection lost. Please try connecting again!")
       location.reload();
   };
-
-  App.onmessage = function(data) {
-    App.loading = false;
-  }
 }

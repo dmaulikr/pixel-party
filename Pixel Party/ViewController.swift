@@ -100,19 +100,15 @@ class ViewController: UIViewController {
                 }
                 
                 // Return current scoreboard contents
-                session.writeText(JSON(self.scoreboard).rawString()!)
+                // TODO: only update the newly joined scoreboard, not all existing scoreboards
+                self.updateScoreboardInstances()
                 return
             }
             
             // Otherwise, we're talking to an individual player
             if action == "INIT" {
-                let response = JSON([
-                    "currentScreen": [
-                        "screenType": PlayerViewType.lobby.rawValue,
-                        "gameInProgress": self.currentGame != nil
-                    ]
-                ])
-                session.writeText(response.rawString()!)
+                // Don't return anything; the client knows how to display the "join" screen
+                // TODO: return metadata
             } else if let username = json["username"].string, action == "JOIN" {
                 // If there is an existing session for this username, replace it
                 if let _ = self.players[username] {
@@ -121,19 +117,20 @@ class ViewController: UIViewController {
                     self.players.removeValue(forKey: username)
                     return
                 }
-                self.players[username] = Player(username: username,
-                                                color: self.colors.removeFirst() ?? UIColor.black,
-                                                session: session)
                 
-                let response = JSON([
-                    "username": username,
-                    "joined": true,
+                // Create Player object
+                let player = Player(username: username,
+                                    color: self.colors.isEmpty ? UIColor.black : self.colors.removeFirst(),
+                                    session: session)
+                self.players[username] = player
+                
+                // Send response
+                let response = [
                     "currentScreen": [
-                        "screenType": PlayerViewType.lobby.rawValue,
-                        "gameInProgress": self.currentGame != nil
+                        "screenType": PlayerViewType.lobby.rawValue
                     ]
-                ])
-                session.writeText(response.rawString()!)
+                ] as Dictionary<String, Any>
+                self.update(username, message: response)
                 
                 // Update all scoreboards, make sure they know about the new users
                 self.updateScoreboardInstances()
@@ -162,9 +159,7 @@ class ViewController: UIViewController {
         var scoreboardInstanceUpdate = self.scoreboard
         
         // Automatically include information about all players
-        scoreboardInstanceUpdate["users"] = self.players.map({ (player: (username: String, player: Player)) -> [String: Any] in
-            return ["username": player.username]
-        })
+        scoreboardInstanceUpdate["metadata"] = metadata(forPlayer: nil)
         
         // Send that info to all individual scoreboard instances
         let jsonMessage = JSON(scoreboardInstanceUpdate).rawString()!
@@ -218,7 +213,7 @@ class ViewController: UIViewController {
     }
     
     
-    // MARK: utilities
+    // MARK: Utilities
     
     func username(forSession session: WebSocketSession) -> String?{
         for (username, player) in players {
@@ -228,11 +223,32 @@ class ViewController: UIViewController {
         }
         return nil
     }
+    
+    func metadata(forPlayer player: Player?) -> Dictionary<String, Any> {
+        let playersJson = players.map{ $0.value.toDictionary() }
+        let currentPlayerJson = player?.toDictionary()
+        
+        return [
+            "currentPlayer": currentPlayerJson as Any,
+            "game": [
+                "inProgress": currentGame != nil
+            ],
+            "players": playersJson
+        ]
+    }
 }
 
 extension ViewController: GameDelegate {
-    func update(_ player: String, message: Dictionary<String, Any>){
-        let jsonMessage = JSON(message).rawString()!
-        players[player]?.session.writeText(jsonMessage)
+    func update(_ playerName: String, message: Dictionary<String, Any>){
+        guard let player = players[playerName] else {
+            return
+        }
+        
+        // Include custom metadata for this player
+        var completeMessage = message
+        completeMessage["metadata"] = metadata(forPlayer: player)
+        
+        let jsonMessage = JSON(completeMessage).rawString()!
+        player.session.writeText(jsonMessage)
     }
 }

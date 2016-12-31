@@ -26,10 +26,9 @@
         <div id="loading" v-if="loading">Loading...</div>
         <div v-if="!loading">
           <h1>Waiting for players...</h1>
-          <ul v-if="users && users.length > 0">
-            <li v-for="user in users">
-              <strong>{{ user.username }}</strong>
-              <span v-if="user.score">{{ user.score }}</span>
+          <ul v-if="metadata.players && metadata.players.length > 0">
+            <li v-for="player in metadata.players" v-bind:style="{ background: player.color, color: '#fff' }">
+              <strong>{{ player.username }}</strong>
             </li>
           </ul>
           <div v-else>

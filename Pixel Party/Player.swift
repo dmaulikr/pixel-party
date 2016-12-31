@@ -19,4 +19,11 @@ class Player {
         self.color = color
         self.session = session
     }
+    
+    func toDictionary() -> Dictionary<String, Any> {
+        return [
+            "username": username,
+            "color": color.hexString()
+        ]
+    }
 }
