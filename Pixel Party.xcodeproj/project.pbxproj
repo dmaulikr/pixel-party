@@ -20,6 +20,7 @@
 		002735B01E15A38900CA064F /* AirplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002735AF1E15A38900CA064F /* AirplayViewController.swift */; };
 		002735B21E15B3F300CA064F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002735B11E15B3F300CA064F /* MediaPlayer.framework */; };
 		002735B41E1606D500CA064F /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002735B31E1606D500CA064F /* UIColor+Hex.swift */; };
+		0068B8761E1841BC0072C516 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0068B8751E1841BC0072C516 /* Player.swift */; };
 		0076A34F1E17130B00D083DD /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0076A34E1E17130B00D083DD /* Game.swift */; };
 		0076A3521E17136400D083DD /* LolCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0076A3511E17136400D083DD /* LolCards.swift */; };
 		F47557B8BC7A34C002A816B1 /* Pods_Pixel_Party.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95183EFA15EE1C977A662B17 /* Pods_Pixel_Party.framework */; };
@@ -42,6 +43,7 @@
 		002735AF1E15A38900CA064F /* AirplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AirplayViewController.swift; sourceTree = "<group>"; };
 		002735B11E15B3F300CA064F /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		002735B31E1606D500CA064F /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		0068B8751E1841BC0072C516 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		0076A34E1E17130B00D083DD /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		0076A3511E17136400D083DD /* LolCards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LolCards.swift; path = Games/LolCards.swift; sourceTree = "<group>"; };
 		95183EFA15EE1C977A662B17 /* Pods_Pixel_Party.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pixel_Party.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +101,7 @@
 				00104FB61E144321004E2AC7 /* Pixel Party-Bridging-Header.h */,
 				002735A71E14DE1100CA064F /* ENV.plist */,
 				002735A91E156D8F00CA064F /* ENV.swift */,
+				0068B8751E1841BC0072C516 /* Player.swift */,
 			);
 			path = "Pixel Party";
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				002735B01E15A38900CA064F /* AirplayViewController.swift in Sources */,
 				00104FA51E144051004E2AC7 /* AppDelegate.swift in Sources */,
 				002735AC1E15817E00CA064F /* DataChannel.swift in Sources */,
+				0068B8761E1841BC0072C516 /* Player.swift in Sources */,
 				0076A34F1E17130B00D083DD /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -40,7 +40,8 @@ class ViewController: UIViewController {
     }
     var scoreboardInstances: [WebSocketSession] = []
     
-    var players: Dictionary<String, WebSocketSession> = [:]
+    var players: Dictionary<String, Player> = [:]
+    var colors = UIColor.palette
     var currentGame: Game? = nil
 
     override func viewDidLoad() {
@@ -120,7 +121,9 @@ class ViewController: UIViewController {
                     self.players.removeValue(forKey: username)
                     return
                 }
-                self.players[username] = session
+                self.players[username] = Player(username: username,
+                                                color: self.colors.removeFirst() ?? UIColor.black,
+                                                session: session)
                 
                 let response = JSON([
                     "username": username,
@@ -138,7 +141,7 @@ class ViewController: UIViewController {
                 self.currentGame = LolCards(players: Array(self.players.keys), delegate: self)
                 self.currentGame?.start()
             } else if action == "SUBMIT" && self.currentGame != nil {
-                if let username = self.players.key(forValue: session) {
+                if let username = self.username(forSession: session) {
                     NotificationCenter.default.post(name: Notification.Name(rawValue: messageReceivedNotification), object: [
                         "username": username,
                         "data": json
@@ -159,7 +162,7 @@ class ViewController: UIViewController {
         var scoreboardInstanceUpdate = self.scoreboard
         
         // Automatically include information about all players
-        scoreboardInstanceUpdate["users"] = self.players.map({ (player: (username: String, session: WebSocketSession)) -> [String: Any] in
+        scoreboardInstanceUpdate["users"] = self.players.map({ (player: (username: String, player: Player)) -> [String: Any] in
             return ["username": player.username]
         })
         
@@ -213,17 +216,23 @@ class ViewController: UIViewController {
         // Hide the AirPlay button unless there are actual AirPlay devices
         airplayButton.isHidden = !airplayButton.areWirelessRoutesAvailable
     }
+    
+    
+    // MARK: utilities
+    
+    func username(forSession session: WebSocketSession) -> String?{
+        for (username, player) in players {
+            if player.session == session {
+                return username
+            }
+        }
+        return nil
+    }
 }
 
 extension ViewController: GameDelegate {
     func update(_ player: String, message: Dictionary<String, Any>){
         let jsonMessage = JSON(message).rawString()!
-        players[player]?.writeText(jsonMessage)
-    }
-}
-
-extension Dictionary where Value: Equatable {
-    func key(forValue val: Value) -> Key? {
-        return self.filter{ $1 == val }.first?.key
+        players[player]?.session.writeText(jsonMessage)
     }
 }

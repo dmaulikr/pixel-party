@@ -29,7 +29,7 @@ class LolCards: Game {
         
         // Start a timer
         DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(LolCards.showQuestion), userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(LolCards.showQuestion), userInfo: nil, repeats: false)
         }
         // Can be cancelled with self.timer?.invalidate()
     }
