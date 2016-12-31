@@ -77,6 +77,7 @@ class ViewController: UIViewController {
             
             return .ok(.html(indexPage))
         }
+        server["/images/:path"] = shareFilesFromDirectory(Bundle.main.resourcePath! + "/Public/images")
         server["/javascripts/:path"] = shareFilesFromDirectory(Bundle.main.resourcePath! + "/Public/javascripts")
         server["/sounds/:path"] = shareFilesFromDirectory(Bundle.main.resourcePath! + "/Public/sounds")
         server["/stylesheets/:path"] = shareFilesFromDirectory(Bundle.main.resourcePath! + "/Public/stylesheets")

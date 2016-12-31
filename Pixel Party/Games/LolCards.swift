@@ -79,7 +79,7 @@ class LolCards: Game {
                     "currentScreen": [
                         "screenType": PlayerViewType.static.rawValue,
                         "content": "<b>testing!<br><br>score: 20</b>",
-                        "todo": "some kind of optional button to continue?"
+                        "button": "some kind of optional button to continue"
                     ]
                 ]
             ]
