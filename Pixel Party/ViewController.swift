@@ -34,15 +34,31 @@ class ViewController: UIViewController {
     @IBOutlet var airplayButton: MPVolumeView!
     
     var server = HttpServer() // Must keep a reference to the server to keep it running
+    var currentGame: Game? = nil
     
     var scoreboard: Dictionary<String, Any> = [:] {
         didSet { self.updateScoreboardInstances() }
     }
     var scoreboardInstances: [WebSocketSession] = []
     
+    // Colors based on https://pbs.twimg.com/media/CuV6mBNXYAEYGPj.jpg:large
     var players: Dictionary<String, Player> = [:]
-    var colors = UIColor.palette
-    var currentGame: Game? = nil
+    var colors = ["#452334",
+                  "#2f346c",
+                  "#844a32",
+                  "#366226",
+                  "#5d7ac9",
+                  "#d14644",
+                  "#87949d",
+                  "#6da72c",
+                  "#d5a79d",
+                  "#6ec3ca",
+                  "#d6d560",
+                  "#deeed1",
+                  "#4f4b4d",
+                  "#736f5c",
+                  "#d57a25",
+                  "#140b1c"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,7 +136,7 @@ class ViewController: UIViewController {
                 
                 // Create Player object
                 let player = Player(username: username,
-                                    color: self.colors.isEmpty ? UIColor.black : self.colors.removeFirst(),
+                                    color: self.colors.isEmpty ? "#000000" : self.colors.removeFirst(),
                                     session: session)
                 self.players[username] = player
                 

@@ -11,10 +11,10 @@ import Swifter
 
 class Player {
     var username: String
-    var color: UIColor
+    var color: String
     var session: WebSocketSession
     
-    init(username: String, color: UIColor, session: WebSocketSession) {
+    init(username: String, color: String, session: WebSocketSession) {
         self.username = username
         self.color = color
         self.session = session
@@ -23,7 +23,7 @@ class Player {
     func toDictionary() -> Dictionary<String, Any> {
         return [
             "username": username,
-            "color": color.hexString()
+            "color": color
         ]
     }
 }
