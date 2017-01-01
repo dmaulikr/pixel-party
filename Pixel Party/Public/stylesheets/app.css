@@ -214,3 +214,9 @@ ul {
 ul li {
   margin: 10px 0;
 }
+
+ul.players li{
+  display: inline-block;
+  margin: 10px;
+  padding: 20px;
+}

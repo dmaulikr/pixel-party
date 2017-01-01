@@ -22,24 +22,21 @@
         <h1>Pixel Party!</h1>
       </header>
 
-      <section>
-        <div id="loading" v-if="loading">Loading...</div>
-        <div v-if="!loading">
-          <h1>Waiting for players...</h1>
-          <ul v-if="metadata.players && metadata.players.length > 0">
-            <li v-for="player in metadata.players" v-bind:style="{ background: player.color, color: '#fff' }">
-              <strong>{{ player.username }}</strong>
-            </li>
-          </ul>
-          <div v-else>
-            No players yet
-          </div>
-        </div>
-        <span v-for="bgcolor in colors" v-bind:style="{ background: bgcolor, height: '50px', display: 'inline-block', 'margin': '20px' }">
-          {{ bgcolor }}
-        </span>
+      <section v-if="loading" id="loading">
+        Loading...
       </section>
-      <section v-if="currentScreen.screenType == 'STATIC'" v-html="currentScreen.content">
+      <section v-else-if="currentScreen.screenType == 'LOBBY'">
+        <h1>Waiting for players...</h1>
+        <ul v-if="metadata.players && metadata.players.length > 0" class="players">
+          <li v-for="player in metadata.players" v-bind:style="{ background: player.color, color: '#fff' }">
+            <strong>{{ player.username }}</strong>
+          </li>
+        </ul>
+        <div v-else>
+          No players yet
+        </div>
+      </section>
+      <section v-else-if="currentScreen.screenType == 'STATIC'" v-html="currentScreen.content">
       </section>
 
       <div id="debug" v-if="debug">{{ debug }}</div>

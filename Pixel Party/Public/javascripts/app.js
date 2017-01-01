@@ -9,23 +9,7 @@ function initScoreboard(){
       },
       debug: null,
       loading: true,
-      metadata: {},
-      colors: ["#140b1c",
-               "#452334",
-               "#2f346c",
-               "#844a32",
-               "#366226",
-               "#5d7ac9",
-               "#d14644",
-               "#87949d",
-               "#6da72c",
-               "#d5a79d",
-               "#6ec3ca",
-               "#d6d560",
-               "#deeed1",
-               "#4f4b4d",
-               "#736f5c",
-               "#d57a25"]
+      metadata: {}
     },
     computed: {
       gameUrl: function() {
@@ -85,6 +69,7 @@ function initPlayer(){
         App.disabled = true;
         App.socket.send(JSON.stringify({
           action: "SUBMIT",
+          label: App.currentScreen.label,
           value: App.currentScreen.value
         }));
       },
