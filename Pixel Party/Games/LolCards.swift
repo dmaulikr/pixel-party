@@ -9,12 +9,18 @@
 import Foundation
 import SwiftyJSON
 
+enum LolCardsMode {
+    case prompt
+    case vote
+    case result
+}
+
 class LolCards: Game {
-    var timer: Timer? = Timer()
     var prompt: String? = nil
     var answers: [String: String] = [:]
     var votes: [String: Int] = [:]
     var points: [String: Int] = [:]
+    var mode: LolCardsMode = .prompt
     
     let prompts = ["What is 5+5?", "Say something funny"]
     
@@ -22,20 +28,31 @@ class LolCards: Game {
         // run in a separate thread, so that we can sleep if we wish
         DispatchQueue.global(qos: .background).async {
             self.showWelcome()
-            Thread.sleep(forTimeInterval: 5)
+            Thread.sleep(forTimeInterval: 1)
+            
+            // Initialize points
+            self.points = [:]
+            self.players.forEach{ self.points[$0] = 0 }
             
             for _ in 1...5 {
-                self.showPrompt()
-                self.showScoreboardCountdown(10)
-
-                self.showChoices()
-                self.showScoreboardCountdown(10)
+                self.answers = [:]
+                self.votes = [:]
                 
+                self.mode = .prompt
+                self.showPrompt()
+                self.showScoreboardCountdown(5)
+                
+                self.mode = .vote
+                self.showChoices()
+                self.showScoreboardCountdown(5)
+                
+                self.mode = .result
                 self.showResult()
-                Thread.sleep(forTimeInterval: 10)
+                Thread.sleep(forTimeInterval: 5)
             }
             
-            // TODO: finish and return to lobby
+            // TODO: show who won the whole game
+            // TODO: return to lobby
         }
     }
     
@@ -81,17 +98,16 @@ class LolCards: Game {
     }
     
     func showChoices() {
-        // TODO: use actual answers here
+        let choices = answers.map { key, value in
+            return ["value": key, "title": value]
+        }
         
         self.updatePlayers([
             "currentScreen": [
                 "label": "choice",
                 "screenType": PlayerViewType.multipleChoice.rawValue,
                 "prompt": "Pick your favorite answer",
-                "choices": [
-                    ["value": "0", "title": "Blue"],
-                    ["value": "1", "title": "Red"],
-                ]
+                "choices": choices
             ]
         ])
     }
@@ -100,11 +116,15 @@ class LolCards: Game {
         // TODO: show who actually won
         // TODO: record who actually won (e.g. add it to the total points)
         
+        let result = votes.map{ key, value in
+            return "\(key): \(value)"
+        }.joined(separator: "<br>")
+        
         updatePlayers([
             "currentScreen": [
                 "label": "result",
                 "screenType": PlayerViewType.static.rawValue,
-                "content": "The winner was:<br>BLAH",
+                "content": "The votes were:<br>\(result)",
             ]
         ])
         
@@ -112,54 +132,21 @@ class LolCards: Game {
             "currentScreen": [
                 "label": "result",
                 "screenType": PlayerViewType.static.rawValue,
-                "content": "The winner was:<br>BLAH",
+                "content": "The votes were:<br>\(result)",
             ]
         ])
     }
     
     override func messageReceived(fromPlayer player: String, message: JSON) {
         // Update scoreboard(s) with the received value
-        // TODO: for submitted values, support data types other than String
-        if let value = message["value"].string {
-            answers[player] = value
-//            updateScoreboard([
-//                "currentScreen": [
-//                    "screenType": ScoreboardViewType.static.rawValue,
-//                    "content": "<b>Value:</b><br><br>\(value)"  // TODO: HTML escaping
-//                ]
-//            ])
+        guard let value = message["value"].string else {
+            return
         }
         
-        // For the player, for now, wait 2 seconds and then generate a new page
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-//            let responses = [
-//                [
-//                    "currentScreen": [
-//                        "screenType": PlayerViewType.multipleChoice.rawValue,
-//                        "prompt": "What's your favorite color?",
-//                        "choices": [
-//                            ["value": "0", "title": "Blue"],
-//                            ["value": "1", "title": "Red"],
-//                        ]
-//                    ]
-//                ],
-//                [
-//                    "currentScreen": [
-//                        "screenType": PlayerViewType.text.rawValue,
-//                        "prompt": "Who's your best friend?"
-//                    ]
-//                ],
-//                [
-//                    "currentScreen": [
-//                        "screenType": PlayerViewType.static.rawValue,
-//                        "content": "<b>testing!<br><br>score: 20</b>",
-//                        "button": "some kind of optional button to continue"
-//                    ]
-//                ]
-//            ]
-//            
-//            let randomResponse = responses.sample()
-//            self.update(player, message: randomResponse)
-//        }
+        if self.mode == .prompt {
+            answers[player] = value
+        } else if self.mode == .vote {
+            votes[value] = (votes[value] == nil ? 1 : votes[value]! + 1)
+        }
     }
 }
