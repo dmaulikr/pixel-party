@@ -3,7 +3,7 @@ Multiplayer games played on your phone(s)!
 
 ## Development instructions
 - Clone this repo
-- Rename `Pixel Party/ENV.plist.sample` to `Pixel Party/ENV.plist.sample`.
+- Rename `Pixel Party/ENV.plist.sample` to `Pixel Party/ENV.plist`.
 - Open `Pixel Party.xcworkspace`
 - Run!
   
