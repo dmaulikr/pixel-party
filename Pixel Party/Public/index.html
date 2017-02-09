@@ -44,6 +44,11 @@
             {{ choice.title }}
           </button>
         </section>
+        <section v-else-if="currentScreen.screenType == 'PICTURE'">
+          {{ currentScreen.prompt }}
+          <br>
+          <input type="file" id="picturePicker" v-on:change="submitPicture()">
+        </section>
         <section v-else-if="currentScreen.screenType == 'STATIC'" v-html="currentScreen.content">
         </section>
         <section v-else>

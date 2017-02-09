@@ -65,11 +65,33 @@ function initPlayer(){
           action: "START_GAME"
         }));
       },
+      resizeImage(url, maxWidth, maxHeight, callback) {
+        var sourceImage = new Image();
+
+        sourceImage.onload = function() {
+          // Create a canvas with the desired dimensions
+          var canvas = document.createElement("canvas");
+          var scaling = Math.min(maxWidth / sourceImage.width, maxHeight / sourceImage.width);
+          canvas.width = Math.round(sourceImage.width * scaling);
+          canvas.height = Math.round(sourceImage.height * scaling);
+
+          // Scale and draw the source image to the canvas
+          canvas.getContext("2d").drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
+
+          // Convert the canvas to a data URL in PNG format
+          callback(canvas.toDataURL());
+        }
+
+        sourceImage.src = url;
+      },
       submit: function(){
+        if (App.disabled){
+          return;
+        }
+
         App.disabled = true;
         App.socket.send(JSON.stringify({
           action: "SUBMIT",
-          label: App.currentScreen.label,
           value: App.currentScreen.value
         }));
       },
@@ -77,6 +99,24 @@ function initPlayer(){
         App.disabled = true;
         App.currentScreen.value = choice.value;
         App.submit();
+      },
+      submitPicture: function(e){
+        // based on http://codepen.io/Atinux/pen/qOvawK/
+        var files = document.getElementById('picturePicker').files;
+        if (!files.length)
+          return;
+
+        // Read the file as a data URL, then submit to the server
+        var fileReader = new FileReader();
+        var that = this;
+        fileReader.onload = function(e){
+          // resize the image to a maximum size
+          App.resizeImage(e.target.result, 200, 200, function(dataUrl){
+            App.currentScreen.value = dataUrl;
+            App.submit();
+          })
+        };
+        fileReader.readAsDataURL(files[0]);
       }
     }
   });

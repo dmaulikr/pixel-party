@@ -22,7 +22,8 @@ class PollGame: Game {
     var points: [String: Int] = [:]
     var mode: PollGameMode = .prompt
     
-    let prompts = ["What's your favorite animal?", "What's your favorite color?"]
+    let textPrompts = ["What's your favorite animal?", "What's your favorite color?"]
+    let imagePrompts = ["Show everyone a big smile!", "Show everyone a vacation photo"]
     
     override func start(){
         // run in a separate thread, so that we can sleep if we wish
@@ -36,20 +37,33 @@ class PollGame: Game {
                 self.points = [:]
                 self.players.forEach{ self.points[$0] = 0 }
                 
-                for _ in 1...5 {
+                for turn in 1...4 {
                     self.answers = [:]
                     self.votes = [:]
                     
-                    self.mode = .prompt
-                    self.showPrompt()
-                    self.showScoreboardCountdown(5)
-                    while (self.answers.count < self.players.count){
-                        Thread.sleep(forTimeInterval: 1)
+                    if (turn % 2 == 0){
+                        self.mode = .prompt
+                        self.showTextPrompt()
+                        self.showScoreboardCountdown(5)
+                        while (self.answers.count < self.players.count){
+                            Thread.sleep(forTimeInterval: 1)
+                        }
+                        
+                        self.mode = .vote
+                        self.showChoices()
+                        self.showScoreboardCountdown(5)
+                    } else {
+                        self.mode = .prompt
+                        self.showImagePrompt()
+                        self.showScoreboardCountdown(5)
+                        while (self.answers.count < self.players.count){
+                            Thread.sleep(forTimeInterval: 1)
+                        }
+                        
+                        self.mode = .vote
+                        self.showImages()
+                        self.showScoreboardCountdown(10)
                     }
-                    
-                    self.mode = .vote
-                    self.showChoices()
-                    self.showScoreboardCountdown(5)
                     
                     self.mode = .result
                     self.showResult()
@@ -90,13 +104,24 @@ class PollGame: Game {
         ])
     }
     
-    func showPrompt() {
-        prompt = prompts.sample()
+    func showTextPrompt() {
+        prompt = textPrompts.sample()
         
         self.updatePlayers([
             "currentScreen": [
-                "label": "prompt",
                 "screenType": PlayerViewType.text.rawValue,
+                "prompt": prompt,
+                "placeholder": "Enter your answer"
+            ]
+        ])
+    }
+    
+    func showImagePrompt() {
+        prompt = imagePrompts.sample()
+        
+        self.updatePlayers([
+            "currentScreen": [
+                "screenType": PlayerViewType.picture.rawValue,
                 "prompt": prompt,
                 "placeholder": "Enter your answer"
             ]
@@ -110,10 +135,22 @@ class PollGame: Game {
         
         self.updatePlayers([
             "currentScreen": [
-                "label": "choice",
                 "screenType": PlayerViewType.multipleChoice.rawValue,
                 "prompt": "Pick your favorite answer",
                 "choices": choices
+            ]
+        ])
+    }
+    
+    func showImages() {
+        let imagesHtml = answers.map { key, value in
+            return "\(key): <img src='\(value)'>"
+        }.joined(separator: "<br>")
+
+        self.updatePlayers([
+            "currentScreen": [
+                "screenType": PlayerViewType.static.rawValue,
+                "content": imagesHtml
             ]
         ])
     }
@@ -128,7 +165,6 @@ class PollGame: Game {
         
         updatePlayers([
             "currentScreen": [
-                "label": "result",
                 "screenType": PlayerViewType.static.rawValue,
                 "content": "The votes were:<br>\(result)",
             ]
@@ -136,7 +172,6 @@ class PollGame: Game {
         
         updateScoreboard([
             "currentScreen": [
-                "label": "result",
                 "screenType": PlayerViewType.static.rawValue,
                 "content": "The votes were:<br>\(result)",
             ]

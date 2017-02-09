@@ -19,6 +19,7 @@ enum PlayerViewType: String {
     case lobby = "LOBBY"
     case `static` = "STATIC"
     case text = "TEXT"
+    case picture = "PICTURE"
     case multipleChoice = "MULTIPLE_CHOICE"
 }
 
