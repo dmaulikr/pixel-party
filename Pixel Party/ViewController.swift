@@ -151,7 +151,7 @@ class ViewController: UIViewController {
                 // Update all scoreboards, make sure they know about the new users
                 self.updateScoreboardInstances()
             } else if action == "START_GAME" && self.currentGame == nil {
-                self.currentGame = LolCards(players: Array(self.players.keys), delegate: self)
+                self.currentGame = PollGame(players: Array(self.players.keys), delegate: self)
                 self.currentGame?.start()
             } else if action == "SUBMIT" && self.currentGame != nil {
                 if let username = self.username(forSession: session) {

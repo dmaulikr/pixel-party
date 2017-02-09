@@ -21,7 +21,7 @@
 		002735B21E15B3F300CA064F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002735B11E15B3F300CA064F /* MediaPlayer.framework */; };
 		0068B8761E1841BC0072C516 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0068B8751E1841BC0072C516 /* Player.swift */; };
 		0076A34F1E17130B00D083DD /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0076A34E1E17130B00D083DD /* Game.swift */; };
-		0076A3521E17136400D083DD /* LolCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0076A3511E17136400D083DD /* LolCards.swift */; };
+		0076A3521E17136400D083DD /* PollGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0076A3511E17136400D083DD /* PollGame.swift */; };
 		0081A7C71E19802F00CFE22A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0081A7C61E19802F00CFE22A /* Extensions.swift */; };
 		F47557B8BC7A34C002A816B1 /* Pods_Pixel_Party.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95183EFA15EE1C977A662B17 /* Pods_Pixel_Party.framework */; };
 /* End PBXBuildFile section */
@@ -44,7 +44,7 @@
 		002735B11E15B3F300CA064F /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		0068B8751E1841BC0072C516 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		0076A34E1E17130B00D083DD /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
-		0076A3511E17136400D083DD /* LolCards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LolCards.swift; path = Games/LolCards.swift; sourceTree = "<group>"; };
+		0076A3511E17136400D083DD /* PollGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PollGame.swift; path = Games/PollGame.swift; sourceTree = "<group>"; };
 		0081A7C61E19802F00CFE22A /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		95183EFA15EE1C977A662B17 /* Pods_Pixel_Party.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pixel_Party.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B85769CC80229D7CBD466AA8 /* Pods-Pixel Party.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixel Party.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixel Party/Pods-Pixel Party.release.xcconfig"; sourceTree = "<group>"; };
@@ -109,7 +109,7 @@
 		0076A3501E17134E00D083DD /* Games */ = {
 			isa = PBXGroup;
 			children = (
-				0076A3511E17136400D083DD /* LolCards.swift */,
+				0076A3511E17136400D083DD /* PollGame.swift */,
 			);
 			name = Games;
 			sourceTree = "<group>";
@@ -167,7 +167,7 @@
 				TargetAttributes = {
 					00104FA01E144051004E2AC7 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = FM3GE7BP4V;
+						DevelopmentTeam = 76Z7TDNBZJ;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -267,7 +267,7 @@
 				002735AA1E156D8F00CA064F /* ENV.swift in Sources */,
 				00104FA71E144051004E2AC7 /* ViewController.swift in Sources */,
 				002735AE1E159D7F00CA064F /* ServerInstance.swift in Sources */,
-				0076A3521E17136400D083DD /* LolCards.swift in Sources */,
+				0076A3521E17136400D083DD /* PollGame.swift in Sources */,
 				002735B01E15A38900CA064F /* AirplayViewController.swift in Sources */,
 				0081A7C71E19802F00CFE22A /* Extensions.swift in Sources */,
 				00104FA51E144051004E2AC7 /* AppDelegate.swift in Sources */,
@@ -401,11 +401,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = FM3GE7BP4V;
+				DEVELOPMENT_TEAM = 76Z7TDNBZJ;
 				INFOPLIST_FILE = "Pixel Party/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rofreg.Pixel-Party";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rofreg.PixelParty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Pixel Party/Pixel Party-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -420,11 +420,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = FM3GE7BP4V;
+				DEVELOPMENT_TEAM = 76Z7TDNBZJ;
 				INFOPLIST_FILE = "Pixel Party/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rofreg.Pixel-Party";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rofreg.PixelParty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Pixel Party/Pixel Party-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

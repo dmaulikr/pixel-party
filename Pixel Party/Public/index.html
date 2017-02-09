@@ -35,7 +35,7 @@
         </section>
         <section v-else-if="currentScreen.screenType == 'TEXT'">
           {{ currentScreen.prompt }}
-          <input type="text" v-model="currentScreen.value" v-bind:placeholder="currentScreen.placeholder" v-on:keyup.enter="join">
+          <input type="text" v-model="currentScreen.value" v-bind:placeholder="currentScreen.placeholder" v-on:keyup.enter="submit">
           <button v-on:click="submit" v-bind:disabled="disabled">Submit</button>
         </section>
         <section v-else-if="currentScreen.screenType == 'MULTIPLE_CHOICE'">

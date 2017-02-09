@@ -1,5 +1,5 @@
 //
-//  LolCards.swift
+//  PollGame.swift
 //  Pixel Party
 //
 //  Created by Ryan Laughlin on 12/30/16.
@@ -9,46 +9,52 @@
 import Foundation
 import SwiftyJSON
 
-enum LolCardsMode {
+enum PollGameMode {
     case prompt
     case vote
     case result
 }
 
-class LolCards: Game {
+class PollGame: Game {
     var prompt: String? = nil
     var answers: [String: String] = [:]
     var votes: [String: Int] = [:]
     var points: [String: Int] = [:]
-    var mode: LolCardsMode = .prompt
+    var mode: PollGameMode = .prompt
     
-    let prompts = ["What is 5+5?", "Say something funny"]
+    let prompts = ["What's your favorite animal?", "What's your favorite color?"]
     
     override func start(){
         // run in a separate thread, so that we can sleep if we wish
         DispatchQueue.global(qos: .background).async {
-            self.showWelcome()
-            Thread.sleep(forTimeInterval: 1)
             
-            // Initialize points
-            self.points = [:]
-            self.players.forEach{ self.points[$0] = 0 }
-            
-            for _ in 1...5 {
-                self.answers = [:]
-                self.votes = [:]
+            while (true){
+                self.showWelcome()
+                Thread.sleep(forTimeInterval: 3)
                 
-                self.mode = .prompt
-                self.showPrompt()
-                self.showScoreboardCountdown(5)
+                // Initialize points
+                self.points = [:]
+                self.players.forEach{ self.points[$0] = 0 }
                 
-                self.mode = .vote
-                self.showChoices()
-                self.showScoreboardCountdown(5)
-                
-                self.mode = .result
-                self.showResult()
-                Thread.sleep(forTimeInterval: 5)
+                for _ in 1...5 {
+                    self.answers = [:]
+                    self.votes = [:]
+                    
+                    self.mode = .prompt
+                    self.showPrompt()
+                    self.showScoreboardCountdown(5)
+                    while (self.answers.count < self.players.count){
+                        Thread.sleep(forTimeInterval: 1)
+                    }
+                    
+                    self.mode = .vote
+                    self.showChoices()
+                    self.showScoreboardCountdown(5)
+                    
+                    self.mode = .result
+                    self.showResult()
+                    Thread.sleep(forTimeInterval: 5)
+                }
             }
             
             // TODO: show who won the whole game
@@ -72,14 +78,14 @@ class LolCards: Game {
         updateScoreboard([
             "currentScreen": [
                 "screenType": ScoreboardViewType.static.rawValue,
-                "content": "Let's play LOLCards!"
+                "content": "Let's play the poll game!"
             ]
         ])
         
         updatePlayers([
             "currentScreen": [
                 "screenType": PlayerViewType.static.rawValue,
-                "content": "Let's play LOLCards!"
+                "content": "Let's play the poll game!"
             ]
         ])
     }
